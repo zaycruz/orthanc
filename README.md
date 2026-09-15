@@ -19,7 +19,7 @@ On macOS, the installer starts the first-run onboarding guide when it has an int
 orthanc onboarding
 ```
 
-The guide creates the default profile and stores the bearer token in the macOS Keychain. On Linux, set `FOUNDRY_HOST` and `FOUNDRY_TOKEN` before using the CLI. The installer supports macOS on Apple Silicon and Intel, plus Linux x86_64. It verifies the downloaded archive with its published SHA-256 checksum.
+The guide asks for a profile name, creates that profile, and stores the bearer token once in the macOS Keychain. On Linux, set `FOUNDRY_HOST` and `FOUNDRY_TOKEN` before using the CLI. The installer supports macOS on Apple Silicon and Intel, plus Linux x86_64. It verifies the downloaded archive with its published SHA-256 checksum.
 
 ## Nightly channel
 
