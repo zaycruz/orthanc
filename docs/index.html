@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orthanc — agent-native CLI for Palantir Foundry</title>
+  <meta name="description" content="Orthanc is a fast, agent-native command-line interface for Palantir Foundry. Install the stable or nightly build in one command.">
+  <meta property="og:title" content="Orthanc — agent-native CLI for Palantir Foundry">
+  <meta property="og:description" content="One command to install. Structured JSON envelopes for agents. Keychain-backed profiles for humans.">
+  <meta property="og:url" content="https://orthanc.sh">
+  <meta name="theme-color" content="#e8e6e1">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#install">Skip to install</a>
+
+  <header class="masthead">
+    <a class="brand" href="#">ORTHANC</a>
+    <span class="tag">CLI / PALANTIR FOUNDRY</span>
+    <nav aria-label="Primary">
+      <a href="#install">Install</a>
+      <a href="#demo">Demo</a>
+      <a href="#changelog">Changelog</a>
+      <a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">GitHub ↗</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>A Foundry CLI<br>built for agents.</h1>
+      <p class="lede">One binary. Every command can return a single structured JSON envelope. Credentials never appear in arguments, logs, or output. Installs in one line.</p>
+
+      <dl class="spec">
+        <div><dt>Stable</dt><dd id="stable-version">v0.2.0</dd></div>
+        <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
+        <div><dt>Platforms</dt><dd>macOS arm64 · macOS x86_64 · Linux x86_64</dd></div>
+        <div><dt>Native paths</dt><dd>299</dd></div>
+        <div><dt>Runtime deps</dt><dd>None</dd></div>
+        <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
+      </dl>
+    </section>
+
+    <section class="quick" aria-label="Install command">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="cmd-stable" id="tab-stable">Stable</button>
+        <button role="tab" aria-selected="false" aria-controls="cmd-nightly" id="tab-nightly">Nightly</button>
+      </div>
+      <div class="cmd" id="cmd-stable" role="tabpanel" aria-labelledby="tab-stable">
+        <pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre>
+        <button class="copy" type="button" data-copy>Copy</button>
+      </div>
+      <div class="cmd" id="cmd-nightly" role="tabpanel" aria-labelledby="tab-nightly" hidden>
+        <pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
+  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR="$HOME/.local/orthanc-nightly/bin" sh</code></pre>
+        <button class="copy" type="button" data-copy>Copy</button>
+      </div>
+      <p class="note">SHA-256 verified. Installs to <code>~/.local/bin</code>. No GitHub account required.</p>
+    </section>
+
+    <section class="points" aria-label="Properties">
+      <div><span class="num" aria-hidden="true"></span><h3>One envelope</h3><p>Add <code>--agent</code> and any command, including a parse error, returns one <code>foundry-agent-v1</code> object: data, errors, warnings, pagination, always in the same place.</p></div>
+      <div><span class="num" aria-hidden="true"></span><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
+      <div><span class="num" aria-hidden="true"></span><h3>Native coverage</h3><p>Datasets, ontology, projects, SQL, orchestration, functions, streams, models, connectivity, and more. No Python runtime.</p></div>
+      <div><span class="num" aria-hidden="true"></span><h3>Plan first</h3><p>Mutations dry-run and print a plan before <code>--apply</code>. Add <code>--non-interactive</code> to disable prompts and fail closed.</p></div>
+    </section>
+
+    <section id="demo">
+      <h2><span class="idx">01</span>Demo</h2>
+      <p class="sub">The same command for a human and for an agent.</p>
+      <div class="term">
+        <div class="term-bar"><span>STDOUT</span><span>orthanc 0.2.0</span></div>
+<pre><code><span class="p">$</span> orthanc search "flight delays" --page-size 2
+RID                                              NAME                  TYPE
+ri.foundry.main.dataset.3f1c…9a2e                flight_delays_2025    dataset
+ri.foundry.main.dataset.b71d…04c8                flight_delays_raw     dataset
+
+<span class="p">$</span> orthanc --agent search "flight delays" --page-size 2
+{
+  "schema_version": "foundry-agent-v1",
+  "meta": { "operation": "search" },
+  "data": [
+    { "rid": "ri.foundry.main.dataset.3f1c…9a2e", "name": "flight_delays_2025", "type": "dataset" },
+    { "rid": "ri.foundry.main.dataset.b71d…04c8", "name": "flight_delays_raw",  "type": "dataset" }
+  ],
+  "pagination": { "next_page_token": "eyJvZmZzZXQiOjJ9" },
+  "errors": [], "warnings": [], "artifacts": []
+}
+
+<span class="p">$</span> orthanc --agent dataset schema apply ri.foundry.main.dataset.3f1c…9a2e --schema ./schema.json
+{
+  "schema_version": "foundry-agent-v1",
+  "meta": { "operation": "dataset schema apply", "mode": "plan" },
+  "data": { "changes": [ { "add_column": "arrival_delay_minutes", "type": "INTEGER" } ] },
+  "warnings": [ <span class="w">"Dry run. Re-run with --apply to write the schema."</span> ],
+  "errors": [], "pagination": null, "artifacts": []
+}</code></pre>
+      </div>
+      <p class="note">Identifiers are illustrative. <code>orthanc capabilities</code> lists every command with its mutation risk. <code>orthanc agent-manifest</code> hands the full surface to an agent.</p>
+    </section>
+
+    <section id="install">
+      <h2><span class="idx">02</span>Install</h2>
+      <p class="sub">Two channels, one installer.</p>
+
+      <div class="rows">
+        <div class="row">
+          <div class="row-head">
+            <h3>Stable</h3>
+            <p>Latest tagged release.</p>
+          </div>
+          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+orthanc --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+        </div>
+
+        <div class="row">
+          <div class="row-head">
+            <h3>Nightly</h3>
+            <p>Rebuilt after every merge to <code>main</code>. Published as a prerelease. Installs beside stable.</p>
+          </div>
+          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
+  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR="$HOME/.local/orthanc-nightly/bin" sh
+"$HOME/.local/orthanc-nightly/bin/orthanc" --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+        </div>
+
+        <div class="row">
+          <div class="row-head">
+            <h3>Pinned</h3>
+            <p>Any stable tag via <code>ORTHANC_VERSION</code>.</p>
+          </div>
+          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | \
+  ORTHANC_VERSION=v0.2.0 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+        </div>
+
+        <div class="row">
+          <div class="row-head">
+            <h3>First run</h3>
+            <p>On macOS the installer starts onboarding in an interactive terminal: it creates a profile and stores the token once in the Keychain. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer. On Linux export <code>FOUNDRY_HOST</code> and <code>FOUNDRY_TOKEN</code>.</p>
+          </div>
+          <div class="cmd"><pre><code>orthanc onboarding
+orthanc configure set-active PROFILE</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+        </div>
+      </div>
+
+      <details class="manual">
+        <summary>Manual download and verification</summary>
+        <table>
+          <thead><tr><th>Target</th><th>Archive</th><th>Checksum</th></tr></thead>
+          <tbody>
+            <tr><td>macOS, Apple Silicon</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz">orthanc-aarch64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
+            <tr><td>macOS, Intel</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz">orthanc-x86_64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
+            <tr><td>Linux x86_64, glibc ≥ 2.35</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz">orthanc-x86_64-unknown-linux-gnu.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz.sha256">.sha256</a></td></tr>
+          </tbody>
+        </table>
+        <div class="cmd"><pre><code>shasum -a 256 -c orthanc-aarch64-apple-darwin.tar.gz.sha256
+tar -xzf orthanc-aarch64-apple-darwin.tar.gz
+install -m 755 orthanc ~/.local/bin/orthanc</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+      </details>
+    </section>
+
+    <section id="changelog">
+      <h2><span class="idx">03</span>Changelog</h2>
+      <p class="sub">Assets and checksums for each release are on <a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">GitHub</a>.</p>
+
+      <div class="log">
+        <article>
+          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-09-17">2026-09-17</time><span class="current">CURRENT</span></header>
+          <ul>
+            <li>The <code>foundry-agent-v1</code> envelope is universal. Every command, including argument parse failures, returns one object under <code>--agent</code>.</li>
+            <li>New <code>ai-fde</code> command group with session orchestration and the full captured tool surface.</li>
+            <li>Built-in smoke suite on a daily schedule. A failing smoke exits non-zero with a typed envelope error.</li>
+            <li>Captured container, preview, <code>evals create</code>, and solution-design contracts. <code>evals create</code> and <code>compute create</code> verified with real applies.</li>
+            <li>Onboarding skips when a profile exists. Onboarded profiles become active immediately.</li>
+            <li>Single native Keychain backend. No double prompts. Foundry host URLs are validated.</li>
+            <li>Foundry project roots are detected on disk within size gates.</li>
+            <li>CLI extension tools renamed to the <code>orthanc_</code> prefix.</li>
+            <li>Installer terminal detection fixed. Nightly stays available while it rebuilds.</li>
+            <li>Search contract drift and the solution-design URL repaired.</li>
+          </ul>
+        </article>
+        <article>
+          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.2">v0.1.2</a><time datetime="2026-09-14">2026-09-14</time></header>
+          <ul>
+            <li>Public one-line installer ships with every release.</li>
+            <li>Releases are drafted and published only once all three archives and checksums are attached.</li>
+          </ul>
+        </article>
+        <article>
+          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.0">v0.1.0</a><time datetime="2026-09-14">2026-09-14</time></header>
+          <ul>
+            <li>First compiled release for macOS arm64, macOS x86_64, and Linux x86_64 with SHA-256 checksums.</li>
+            <li>Native command groups for datasets, ontology, projects, folders, resources, SQL, orchestration, functions, streams, media sets, models, AIP agents, language models, lineage, and connectivity.</li>
+            <li>Agent mode, Keychain profiles, aliases, shell completion, interactive shell.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Orthanc is proprietary software distributed as compiled binaries. Official releases may be downloaded, installed, and used under the <a href="https://github.com/zaycruz/orthanc/blob/main/LICENSE" rel="noopener">license</a> included in each archive.</p>
+    <nav aria-label="Footer"><a href="https://github.com/zaycruz/orthanc" rel="noopener">GitHub</a><a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">Releases</a><a href="https://github.com/zaycruz/orthanc/issues" rel="noopener">Issues</a></nav>
+  </footer>
+
+  <script src="site.js" defer></script>
+</body>
+</html>
