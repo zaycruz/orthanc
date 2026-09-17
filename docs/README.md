@@ -4,15 +4,14 @@ Static site for https://orthanc.sh: install, demo, and changelog for the Orthanc
 
 Plain HTML, CSS, and one small script. No build step and no dependencies.
 
-## Deploy with GitHub Pages
+## Hosting
 
-1. Copy this directory to `docs/` in the public `zaycruz/orthanc` repository and commit.
-2. In the repository settings, set Pages to "Deploy from a branch", branch `main`, folder `/docs`.
-3. `CNAME` already contains `orthanc.sh`. In Cloudflare DNS for `orthanc.sh`, add:
-   - `A @ 185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `AAAA @ 2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
-   - `CNAME www zaycruz.github.io`
-   Keep the proxy off (grey cloud) until GitHub has issued the certificate, then enable "Enforce HTTPS" in Pages.
+Served by GitHub Pages from the `docs/` folder on `main` of `zaycruz/orthanc`.
+Pushing to `main` publishes within a minute or two.
+
+DNS for `orthanc.sh` lives in Cloudflare (DNS-only, not proxied, so GitHub can
+manage the certificate): apex `A`/`AAAA` records point at the GitHub Pages
+addresses and `www` is a `CNAME` to `zaycruz.github.io`.
 
 ## Preview locally
 
