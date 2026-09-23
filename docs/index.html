@@ -3,206 +3,78 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Orthanc — agent-native CLI for Palantir Foundry</title>
-  <meta name="description" content="Orthanc is a fast, agent-native command-line interface for Palantir Foundry. Install the stable or nightly build in one command.">
-  <meta property="og:title" content="Orthanc — agent-native CLI for Palantir Foundry">
-  <meta property="og:description" content="One command to install. Structured JSON envelopes for agents. Keychain-backed profiles for humans.">
-  <meta property="og:url" content="https://orthanc.sh">
-  <meta name="theme-color" content="#e8e6e1">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="style.css">
+  <title>orthanc.sh · The Foundry Agent Stack</title>
+  <meta name="description" content="Orthanc, pi-palantir, and Mirdain: a personal agent stack for Palantir Foundry. Install docs and changelogs.">
+  <meta property="og:title" content="orthanc.sh · The Foundry Agent Stack">
+  <meta property="og:description" content="Orthanc, pi-palantir, and Mirdain: a personal agent stack for Palantir Foundry. Install docs and changelogs.">
+  <meta property="og:url" content="https://orthanc.sh/">
+  <meta property="og:image" content="https://orthanc.sh/assets/stack.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-  <a class="skip" href="#install">Skip to install</a>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead"><div class="wrap">
+    <a class="brand" href="/">orthanc.sh</a>
+    <nav class="nav" aria-label="Primary"><a href="/" aria-current="page">Stack</a><a href="/orthanc/">Orthanc</a><a href="/pi-palantir/">pi-palantir</a><a href="/mirdain/">Mirdain</a><a href="/changelog/">Changelog</a></nav>
+  </div></header>
+  <main id="main" class="wrap">
 
-  <header class="masthead">
-    <a class="brand" href="#">ORTHANC</a>
-    <span class="tag">CLI / PALANTIR FOUNDRY</span>
-    <nav aria-label="Primary">
-      <a href="#install">Install</a>
-      <a href="#demo">Demo</a>
-      <a href="#changelog">Changelog</a>
-      <a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">GitHub ↗</a>
-    </nav>
-  </header>
+<div class="hero">
+  <div>
+    <div class="label accent">Personal project · An agent harness for Palantir Foundry</div>
+    <h1>Work in Foundry from the terminal, with your own agent.</h1>
+  </div>
+  <p class="lede">Orthanc is an agent-native Foundry CLI. pi-palantir is a harness for the Pi coding agent that drives it. Mirdain is an experimental Mac app on top. ReasoningBank is how it learns.</p>
+</div>
+<div class="figure"><img src="/assets/stack.png" alt="The Foundry Agent Stack: Palantir Foundry at layer 0, Orthanc at layer 1, pi-palantir at layer 2, Mirdain at layer 3, with a ReasoningBank learning loop on the side." width="1600" height="2000"></div>
 
-  <main>
-    <section class="hero">
-      <h1>A Foundry CLI<br>built for agents.</h1>
-      <p class="lede">One binary. Every command can return a single structured JSON envelope. Credentials never appear in arguments, logs, or output. Installs in one line.</p>
+<section id="install">
+  <div class="head"><h2><span class="idx">01</span>Install</h2><p>Start with Orthanc. pi-palantir needs it on your PATH. Mirdain bundles its own harness.</p></div>
+  <div class="installs">
+    <div class="card">
+      <div class="row-top"><span class="label">Layer 1 · The CLI</span><span class="chip">Shipped · <span data-stable-version>v0.2.1</span></span></div>
+      <h3>Orthanc</h3>
+      <p>Agent-native Foundry CLI, written in Rust. One JSON contract on every call, plan-first writes, and credentials kept out of arguments.</p>
+      <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+      <p class="note">macOS (Apple silicon and Intel) and Linux x86_64. SHA-256 verified. No GitHub account needed.</p>
+      <div class="links"><a href="/orthanc/">Docs</a><a href="/changelog/#orthanc">Changelog</a></div>
+    </div>
+    <div class="card subject">
+      <div class="row-top"><span class="label accent">Layer 2 · The harness</span><span class="chip">Shipped · 0.4.0</span></div>
+      <h3>pi-palantir</h3>
+      <p>A harness for the Pi coding agent, built for Palantir: scope and context every turn, an approval ladder, a branch gate, a Jev risk judge, a loop guard, and subagents.</p>
+      <div class="cmd"><pre><code>pi install git:github.com/zaycruz/pi-palantir</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+      
+      <div class="links"><a href="/pi-palantir/">Docs</a><a href="/changelog/#pi-palantir">Changelog</a></div>
+    </div>
+    <div class="card">
+      <div class="row-top"><span class="label">Layer 3 · The app</span><span class="chip accent">Experimental · v0.0.2</span></div>
+      <h3>Mirdain</h3>
+      <p>A native Mac app for the harness: tabs and split panes, worktrees, a context inspector, and trace views.</p>
+      <p><a href="https://orthanc.raava.dev/Orthanc-v0.0.2-macos-arm64.zip">Download v0.0.2 for Mac</a></p>
+      <p class="note">Apple silicon, macOS 26 or later. Signed and notarized.</p>
+      <div class="links"><a href="/mirdain/">Docs</a><a href="/changelog/#mirdain">Changelog</a></div>
+    </div>
+  </div>
+</section>
 
-      <dl class="spec">
-        <div><dt>Stable</dt><dd id="stable-version">v0.2.0</dd></div>
-        <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
-        <div><dt>Platforms</dt><dd>macOS arm64 · macOS x86_64 · Linux x86_64</dd></div>
-        <div><dt>Native paths</dt><dd>299</dd></div>
-        <div><dt>Runtime deps</dt><dd>None</dd></div>
-        <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
-      </dl>
-    </section>
+<section id="latest">
+  <div class="head"><h2><span class="idx">02</span>Latest</h2><p>The newest release of each layer. The full history is on the <a href="/changelog/">changelog</a>.</p></div>
+  <div class="tool-head"><h3>Orthanc</h3><span class="label">Layer 1</span></div>
+  <div class="log"><article><header><span class="ver">Unreleased</span><span class="chip signal">Unreleased</span></header><ul><li>Agent output keeps ontology API names (for example property API names) exactly as the platform returns them instead of rewriting them.</li><li>New repository tag commands: create and list tags, and read a repository&#x27;s fallback branches.</li><li>Updated the TLS library to address a published security advisory.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.1">v0.2.1</a><time datetime="2026-09-20">2026-09-20</time></header><ul><li>New <code>configure profile create</code> command: create a named profile with an interactive host prompt and a hidden token prompt, or pass them non-interactively. The token is stored in the macOS Keychain.</li></ul></article></div>
+  <div class="tool-head"><h3>pi-palantir</h3><span class="label">Layer 2</span></div>
+  <div class="log"><article><header><span class="ver">0.4.0</span><time datetime="2026-09-21">2026-09-21</time></header><ul><li>New approval ladder replaces work roles. Pick a mode with <code>/approval</code>: ask-always, allow-edits, auto (the default), or yolo. The <code>/role</code> command is removed.</li><li>Guarded actions open an approval prompt instead of being blocked with no way forward. Destructive actions always ask, in every mode.</li><li>If the AI risk check is unavailable, the harness now asks for approval instead of letting the action through.</li><li>The Foundry MCP server is disconnected. All Foundry writes go through the Orthanc CLI.</li><li>MCP servers can declare themselves read-only in mcp.json, and tool-discovery calls are treated as reads.</li><li>Command risk levels now come from Orthanc&#x27;s own manifest, so read-only commands are no longer blocked as if they were writes.</li></ul></article></div>
+  <div class="tool-head"><h3>Mirdain</h3><span class="label">Layer 3</span></div>
+  <div class="log"><article><header><span class="ver">v0.0.2</span><time datetime="2026-09-12">2026-09-12</time></header><ul><li>Compact, expandable subagent activity shows assignments, current work, and reported progress while you keep chatting.</li><li>Saved workflows with AI-assisted drafting, editable steps, slash-command launch, and local scheduled automations. Both are opt-in.</li><li>Harness slash commands stay available next to workflows. Workflows use their own prefix when names collide.</li><li>Settings, tabs, workflow drafts, and sessions are saved more reliably, including when you quit.</li><li>Nightly builds keep their own app data and credentials, separate from the stable app.</li><li>Signed with Developer ID and notarized by Apple. Requires Apple silicon and macOS 26 or later.</li></ul></article></div>
+</section>
 
-    <section class="quick" aria-label="Install command">
-      <div class="tabs" role="tablist">
-        <button role="tab" aria-selected="true" aria-controls="cmd-stable" id="tab-stable">Stable</button>
-        <button role="tab" aria-selected="false" aria-controls="cmd-nightly" id="tab-nightly">Nightly</button>
-      </div>
-      <div class="cmd" id="cmd-stable" role="tabpanel" aria-labelledby="tab-stable">
-        <pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre>
-        <button class="copy" type="button" data-copy>Copy</button>
-      </div>
-      <div class="cmd" id="cmd-nightly" role="tabpanel" aria-labelledby="tab-nightly" hidden>
-        <pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
-  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR="$HOME/.local/orthanc-nightly/bin" sh</code></pre>
-        <button class="copy" type="button" data-copy>Copy</button>
-      </div>
-      <p class="note">SHA-256 verified. Installs to <code>~/.local/bin</code>. No GitHub account required.</p>
-    </section>
-
-    <section class="points" aria-label="Properties">
-      <div><span class="num" aria-hidden="true"></span><h3>One envelope</h3><p>Add <code>--agent</code> and any command, including a parse error, returns one <code>foundry-agent-v1</code> object: data, errors, warnings, pagination, always in the same place.</p></div>
-      <div><span class="num" aria-hidden="true"></span><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
-      <div><span class="num" aria-hidden="true"></span><h3>Native coverage</h3><p>Datasets, ontology, projects, SQL, orchestration, functions, streams, models, connectivity, and more. No Python runtime.</p></div>
-      <div><span class="num" aria-hidden="true"></span><h3>Plan first</h3><p>Mutations dry-run and print a plan before <code>--apply</code>. Add <code>--non-interactive</code> to disable prompts and fail closed.</p></div>
-    </section>
-
-    <section id="demo">
-      <h2><span class="idx">01</span>Demo</h2>
-      <p class="sub">The same command for a human and for an agent.</p>
-      <div class="term">
-        <div class="term-bar"><span>STDOUT</span><span>orthanc 0.2.0</span></div>
-<pre><code><span class="p">$</span> orthanc search "flight delays" --page-size 2
-RID                                              NAME                  TYPE
-ri.foundry.main.dataset.3f1c…9a2e                flight_delays_2025    dataset
-ri.foundry.main.dataset.b71d…04c8                flight_delays_raw     dataset
-
-<span class="p">$</span> orthanc --agent search "flight delays" --page-size 2
-{
-  "schema_version": "foundry-agent-v1",
-  "meta": { "operation": "search" },
-  "data": [
-    { "rid": "ri.foundry.main.dataset.3f1c…9a2e", "name": "flight_delays_2025", "type": "dataset" },
-    { "rid": "ri.foundry.main.dataset.b71d…04c8", "name": "flight_delays_raw",  "type": "dataset" }
-  ],
-  "pagination": { "next_page_token": "eyJvZmZzZXQiOjJ9" },
-  "errors": [], "warnings": [], "artifacts": []
-}
-
-<span class="p">$</span> orthanc --agent dataset schema apply ri.foundry.main.dataset.3f1c…9a2e --schema ./schema.json
-{
-  "schema_version": "foundry-agent-v1",
-  "meta": { "operation": "dataset schema apply", "mode": "plan" },
-  "data": { "changes": [ { "add_column": "arrival_delay_minutes", "type": "INTEGER" } ] },
-  "warnings": [ <span class="w">"Dry run. Re-run with --apply to write the schema."</span> ],
-  "errors": [], "pagination": null, "artifacts": []
-}</code></pre>
-      </div>
-      <p class="note">Identifiers are illustrative. <code>orthanc capabilities</code> lists every command with its mutation risk. <code>orthanc agent-manifest</code> hands the full surface to an agent.</p>
-    </section>
-
-    <section id="install">
-      <h2><span class="idx">02</span>Install</h2>
-      <p class="sub">Two channels, one installer.</p>
-
-      <div class="rows">
-        <div class="row">
-          <div class="row-head">
-            <h3>Stable</h3>
-            <p>Latest tagged release.</p>
-          </div>
-          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh
-export PATH="$HOME/.local/bin:$PATH"
-orthanc --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-        </div>
-
-        <div class="row">
-          <div class="row-head">
-            <h3>Nightly</h3>
-            <p>Rebuilt after every merge to <code>main</code>. Published as a prerelease. Installs beside stable.</p>
-          </div>
-          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
-  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR="$HOME/.local/orthanc-nightly/bin" sh
-"$HOME/.local/orthanc-nightly/bin/orthanc" --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-        </div>
-
-        <div class="row">
-          <div class="row-head">
-            <h3>Pinned</h3>
-            <p>Any stable tag via <code>ORTHANC_VERSION</code>.</p>
-          </div>
-          <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | \
-  ORTHANC_VERSION=v0.2.0 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-        </div>
-
-        <div class="row">
-          <div class="row-head">
-            <h3>First run</h3>
-            <p>On macOS the installer starts onboarding in an interactive terminal: it creates a profile and stores the token once in the Keychain. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer. On Linux export <code>FOUNDRY_HOST</code> and <code>FOUNDRY_TOKEN</code>.</p>
-          </div>
-          <div class="cmd"><pre><code>orthanc onboarding
-orthanc configure set-active PROFILE</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-        </div>
-      </div>
-
-      <details class="manual">
-        <summary>Manual download and verification</summary>
-        <table>
-          <thead><tr><th>Target</th><th>Archive</th><th>Checksum</th></tr></thead>
-          <tbody>
-            <tr><td>macOS, Apple Silicon</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz">orthanc-aarch64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
-            <tr><td>macOS, Intel</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz">orthanc-x86_64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
-            <tr><td>Linux x86_64, glibc ≥ 2.35</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz">orthanc-x86_64-unknown-linux-gnu.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz.sha256">.sha256</a></td></tr>
-          </tbody>
-        </table>
-        <div class="cmd"><pre><code>shasum -a 256 -c orthanc-aarch64-apple-darwin.tar.gz.sha256
-tar -xzf orthanc-aarch64-apple-darwin.tar.gz
-install -m 755 orthanc ~/.local/bin/orthanc</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-      </details>
-    </section>
-
-    <section id="changelog">
-      <h2><span class="idx">03</span>Changelog</h2>
-      <p class="sub">Assets and checksums for each release are on <a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">GitHub</a>.</p>
-
-      <div class="log">
-        <article>
-          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-09-17">2026-09-17</time><span class="current">CURRENT</span></header>
-          <ul>
-            <li>The <code>foundry-agent-v1</code> envelope is universal. Every command, including argument parse failures, returns one object under <code>--agent</code>.</li>
-            <li>New <code>ai-fde</code> command group with session orchestration and the full captured tool surface.</li>
-            <li>Built-in smoke suite on a daily schedule. A failing smoke exits non-zero with a typed envelope error.</li>
-            <li>Captured container, preview, <code>evals create</code>, and solution-design contracts. <code>evals create</code> and <code>compute create</code> verified with real applies.</li>
-            <li>Onboarding skips when a profile exists. Onboarded profiles become active immediately.</li>
-            <li>Single native Keychain backend. No double prompts. Foundry host URLs are validated.</li>
-            <li>Foundry project roots are detected on disk within size gates.</li>
-            <li>CLI extension tools renamed to the <code>orthanc_</code> prefix.</li>
-            <li>Installer terminal detection fixed. Nightly stays available while it rebuilds.</li>
-            <li>Search contract drift and the solution-design URL repaired.</li>
-          </ul>
-        </article>
-        <article>
-          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.2">v0.1.2</a><time datetime="2026-09-14">2026-09-14</time></header>
-          <ul>
-            <li>Public one-line installer ships with every release.</li>
-            <li>Releases are drafted and published only once all three archives and checksums are attached.</li>
-          </ul>
-        </article>
-        <article>
-          <header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.0">v0.1.0</a><time datetime="2026-09-14">2026-09-14</time></header>
-          <ul>
-            <li>First compiled release for macOS arm64, macOS x86_64, and Linux x86_64 with SHA-256 checksums.</li>
-            <li>Native command groups for datasets, ontology, projects, folders, resources, SQL, orchestration, functions, streams, media sets, models, AIP agents, language models, lineage, and connectivity.</li>
-            <li>Agent mode, Keychain profiles, aliases, shell completion, interactive shell.</li>
-          </ul>
-        </article>
-      </div>
-    </section>
   </main>
-
-  <footer>
-    <p>Orthanc is proprietary software distributed as compiled binaries. Official releases may be downloaded, installed, and used under the <a href="https://github.com/zaycruz/orthanc/blob/main/LICENSE" rel="noopener">license</a> included in each archive.</p>
+  <footer><div class="wrap">
+    <p>A personal project by Zay Cruz. Orthanc is proprietary software distributed as compiled binaries under the <a href="https://github.com/zaycruz/orthanc/blob/main/LICENSE" rel="noopener">license</a> in each archive. Palantir and Foundry are trademarks of Palantir Technologies Inc. Not affiliated.</p>
     <nav aria-label="Footer"><a href="https://github.com/zaycruz/orthanc" rel="noopener">GitHub</a><a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">Releases</a><a href="https://github.com/zaycruz/orthanc/issues" rel="noopener">Issues</a></nav>
-  </footer>
-
-  <script src="site.js" defer></script>
+  </div></footer>
+  <script src="/site.js" defer></script>
 </body>
 </html>

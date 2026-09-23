@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pi-palantir · a Pi harness for Palantir Foundry</title>
+  <meta name="description" content="pi-palantir is a harness for the Pi coding agent, built for Palantir Foundry and driven by Orthanc.">
+  <meta property="og:title" content="pi-palantir · a Pi harness for Palantir Foundry">
+  <meta property="og:description" content="pi-palantir is a harness for the Pi coding agent, built for Palantir Foundry and driven by Orthanc.">
+  <meta property="og:url" content="https://orthanc.sh/pi-palantir/">
+  <meta property="og:image" content="https://orthanc.sh/assets/stack.png">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="masthead"><div class="wrap">
+    <a class="brand" href="/">orthanc.sh</a>
+    <nav class="nav" aria-label="Primary"><a href="/">Stack</a><a href="/orthanc/">Orthanc</a><a href="/pi-palantir/" aria-current="page">pi-palantir</a><a href="/mirdain/">Mirdain</a><a href="/changelog/">Changelog</a></nav>
+  </div></header>
+  <main id="main" class="wrap">
+
+<div class="hero single">
+  <div>
+    <div class="label accent">Layer 2 · The harness</div>
+    <h1>A Pi harness,<br>built for Palantir.</h1>
+    <p class="lede">pi-palantir wraps the Pi coding agent with what Foundry work needs: the selected stack, ontology, and projects in every turn, and guardrails before any write. Every Foundry call goes through Orthanc.</p>
+  </div>
+  <dl class="spec">
+    <div><dt>Version</dt><dd>0.4.0</dd></div>
+    <div><dt>Runs on</dt><dd>Pi 0.84 or later</dd></div>
+    <div><dt>Needs</dt><dd><code>orthanc</code> on your PATH</dd></div>
+  </dl>
+</div>
+
+<section id="install">
+  <div class="head"><h2><span class="idx">01</span>Install</h2><p>Install Pi and Orthanc first, then add the harness.</p></div>
+  <div class="rows">
+    <div class="row"><div class="row-head"><h3>1 · Pi</h3><p>The coding agent the harness runs in.</p></div><div class="cmd"><pre><code>npm i -g @earendil-works/pi-coding-agent</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+    <div class="row"><div class="row-head"><h3>2 · Orthanc</h3><p>The CLI the harness uses for every Foundry call. See <a href="/orthanc/">Orthanc</a>.</p></div><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+    <div class="row"><div class="row-head"><h3>3 · The harness</h3><p>Loads the extensions, skills, and subagents into Pi. Onboarding runs on first launch.</p></div><div class="cmd"><pre><code>pi install git:github.com/zaycruz/pi-palantir</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+  </div>
+</section>
+
+<section id="parts">
+  <div class="head"><h2><span class="idx">02</span>What's in it</h2><p>The real component names, as they appear in the code.</p></div>
+  <div class="points">
+    <div><h3>Scope &amp; context</h3><p>Pickers choose the stack, ontology, and projects. They are injected into every turn, and older tool results are compacted.</p></div>
+    <div><h3>Orthanc tools</h3><p><code>orthanc_help</code> and <code>orthanc_cli</code> are the one path to Foundry. Output must be a <code>foundry-agent-v1</code> envelope.</p></div>
+    <div><h3>Approval ladder</h3><p>Four modes set with <code>/approval</code>: ask-always, allow-edits, auto (the default), and yolo. Destructive calls ask in every mode.</p></div>
+    <div><h3>Branch gate</h3><p>Classifies each write. Writes to protected targets like <code>main</code> and production ontologies ask in every mode except yolo.</p></div>
+    <div><h3>Jev risk judge</h3><p>In auto mode it decides ordinary writes: approve runs, ask or deny asks you. If it is unavailable, the harness asks.</p></div>
+    <div><h3>Loop guard</h3><p>Blocks a third identical tool call and tells the agent to use the evidence it has or change the experiment.</p></div>
+    <div><h3>Subagents</h3><p>Scout, builder, reviewer, and oracle, each with one job. The builder is the single writer.</p></div>
+    <div><h3>Traces &amp; evals</h3><p>OpenTelemetry traces with secrets redacted at the source, and offline evals scored by rule.</p></div>
+  </div>
+</section>
+
+<section id="changelog">
+  <div class="head"><h2><span class="idx">03</span>Changelog</h2><p>Recent releases.</p></div>
+  <div class="log"><article><header><span class="ver">0.4.0</span><time datetime="2026-09-21">2026-09-21</time></header><ul><li>New approval ladder replaces work roles. Pick a mode with <code>/approval</code>: ask-always, allow-edits, auto (the default), or yolo. The <code>/role</code> command is removed.</li><li>Guarded actions open an approval prompt instead of being blocked with no way forward. Destructive actions always ask, in every mode.</li><li>If the AI risk check is unavailable, the harness now asks for approval instead of letting the action through.</li><li>The Foundry MCP server is disconnected. All Foundry writes go through the Orthanc CLI.</li><li>MCP servers can declare themselves read-only in mcp.json, and tool-discovery calls are treated as reads.</li><li>Command risk levels now come from Orthanc&#x27;s own manifest, so read-only commands are no longer blocked as if they were writes.</li></ul></article><article><header><span class="ver">0.3.4</span><time datetime="2026-09-20">2026-09-20</time></header><ul><li>Agents can clone Foundry repositories locally through Orthanc. The harness tracks each clone and shows it in the agent&#x27;s context.</li><li>Cloning no longer needs a working branch first, and creating a branch in a session now correctly unlocks branch-scoped changes.</li></ul></article><article><header><span class="ver">0.3.3</span><time datetime="2026-09-20">2026-09-20</time></header><ul><li>Reads Foundry credentials saved by <code>orthanc onboarding</code> and <code>orthanc auth store</code>, with a fallback to older profiles. This fixes startup failures on fresh installs.</li></ul></article><article><header><span class="ver">0.3.2</span><time datetime="2026-09-20">2026-09-20</time></header><ul><li>Orthanc-first: Orthanc is now the main Foundry CLI, used through <code>orthanc_cli</code> and <code>orthanc_help</code> with live usage hints and checks after each change. The launcher is renamed to <code>pi-palantir</code>.</li><li>Branch safety: changes must target a working branch, and writes to main branches or production ontologies are blocked.</li><li>AI pre-tool guard checks risky tool calls before they run.</li><li>Safer memory: only the harness can save lessons, after a quality check. Doubtful entries are held for review.</li><li>Lower token use: large tool results are capped, with <code>--output</code> to save the full result to a file, and a loop guard redirects agents that repeat the same call.</li><li>New native commands: <code>cp</code>, <code>osdk context</code>, and <code>notepad create</code>. <code>link-type-list</code> now finds incoming links.</li></ul></article></div>
+</section>
+
+  </main>
+  <footer><div class="wrap">
+    <p>A personal project by Zay Cruz. Orthanc is proprietary software distributed as compiled binaries under the <a href="https://github.com/zaycruz/orthanc/blob/main/LICENSE" rel="noopener">license</a> in each archive. Palantir and Foundry are trademarks of Palantir Technologies Inc. Not affiliated.</p>
+    <nav aria-label="Footer"><a href="https://github.com/zaycruz/orthanc" rel="noopener">GitHub</a><a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">Releases</a><a href="https://github.com/zaycruz/orthanc/issues" rel="noopener">Issues</a></nav>
+  </div></footer>
+  <script src="/site.js" defer></script>
+</body>
+</html>

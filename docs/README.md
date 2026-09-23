@@ -1,6 +1,12 @@
 # orthanc.sh
 
-Static site for https://orthanc.sh: install, demo, and changelog for the Orthanc CLI.
+Static site for https://orthanc.sh: install docs and changelogs for the whole stack.
+
+- `/` the stack overview (Orthanc, pi-palantir, Mirdain)
+- `/orthanc/` Orthanc CLI: install, demo, changelog
+- `/pi-palantir/` the Pi harness
+- `/mirdain/` the experimental Mac app
+- `/changelog/` every release of all three
 
 Plain HTML, CSS, and one small script. No build step and no dependencies.
 
@@ -21,5 +27,6 @@ python3 -m http.server 8000
 
 ## Updating
 
-- New release: add an entry at the top of the Changelog list in `index.html` and bump the fallback text in the hero badge. The badge also refreshes itself from the GitHub Releases API when the page loads.
+- New release: add the entry to the Changelog lists (the tool's own page, `/changelog/`, and the Latest section on `/`) and bump the fallback version text. Orthanc's version badges also refresh from the GitHub Releases API when a page loads.
+- Every claim must match the code. Use real component names.
 - Installer changes: keep the commands in sync with `README.md` in the distribution repository.
