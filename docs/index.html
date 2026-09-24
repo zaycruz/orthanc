@@ -3,12 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>orthanc.sh · The Foundry Agent Stack</title>
-  <meta name="description" content="Orthanc, pi-palantir, and Mirdain: a personal agent stack for Palantir Foundry. Install docs and changelogs.">
-  <meta property="og:title" content="orthanc.sh · The Foundry Agent Stack">
-  <meta property="og:description" content="Orthanc, pi-palantir, and Mirdain: a personal agent stack for Palantir Foundry. Install docs and changelogs.">
+  <title>Orthanc · agent-native CLI for Palantir Foundry</title>
+  <meta name="description" content="Orthanc is a fast, agent-native command-line interface for Palantir Foundry. Install the stable or nightly build in one command.">
+  <meta property="og:title" content="Orthanc · agent-native CLI for Palantir Foundry">
+  <meta property="og:description" content="Orthanc is a fast, agent-native command-line interface for Palantir Foundry. Install the stable or nightly build in one command.">
   <meta property="og:url" content="https://orthanc.sh/">
-  <meta property="og:image" content="https://orthanc.sh/assets/stack.png">
   <meta name="theme-color" content="#ffffff">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/style.css">
@@ -17,57 +16,157 @@
   <a class="skip" href="#main">Skip to content</a>
   <header class="masthead"><div class="wrap">
     <a class="brand" href="/">orthanc.sh</a>
-    <nav class="nav" aria-label="Primary"><a href="/" aria-current="page">Stack</a><a href="/orthanc/">Orthanc</a><a href="/pi-palantir/">pi-palantir</a><a href="/mirdain/">Mirdain</a><a href="/changelog/">Changelog</a></nav>
+    <nav class="nav" aria-label="Primary"><a href="#demo">Demo</a><a href="#install">Install</a><a href="#changelog">Changelog</a><a href="https://github.com/zaycruz/orthanc">GitHub</a></nav>
   </div></header>
   <main id="main" class="wrap">
 
-<div class="hero">
+<div class="hero single">
   <div>
-    <div class="label accent">Personal project · An agent harness for Palantir Foundry</div>
-    <h1>Work in Foundry from the terminal, with your own agent.</h1>
+    <div class="label accent">Personal project · Written in Rust</div>
+    <h1>A Foundry CLI<br>built for agents.</h1>
+    <p class="lede">One binary. Every command can return a single structured JSON envelope, every write is plan-first, and every command is tested live against Foundry. Credentials never appear in arguments, logs, or output. Installs in one line.</p>
   </div>
-  <p class="lede">Orthanc is an agent-native Foundry CLI. pi-palantir is a harness for the Pi coding agent that drives it. Mirdain is an experimental Mac app on top. ReasoningBank is how it learns.</p>
+  <dl class="spec">
+    <div><dt>Stable</dt><dd id="stable-version" data-stable-version>v0.3.0</dd></div>
+    <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
+    <div><dt>Platforms</dt><dd>macOS arm64 · macOS x86_64 · Linux x86_64</dd></div>
+    <div><dt>Written in</dt><dd>Rust</dd></div>
+    <div><dt>Runtime deps</dt><dd>None</dd></div>
+    <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
+  </dl>
 </div>
-<div class="figure"><img src="/assets/stack.png" alt="The Foundry Agent Stack: Palantir Foundry at layer 0, Orthanc at layer 1, pi-palantir at layer 2, Mirdain at layer 3, with a ReasoningBank learning loop on the side." width="1600" height="2000"></div>
 
-<section id="install">
-  <div class="head"><h2><span class="idx">01</span>Install</h2><p>Start with Orthanc. pi-palantir needs it on your PATH. Mirdain bundles its own harness.</p></div>
-  <div class="installs">
-    <div class="card">
-      <div class="row-top"><span class="label">Layer 1 · The CLI</span><span class="chip">Shipped · <span data-stable-version>v0.2.1</span></span></div>
-      <h3>Orthanc</h3>
-      <p>Agent-native Foundry CLI, written in Rust. One JSON contract on every call, plan-first writes, and credentials kept out of arguments.</p>
-      <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-      <p class="note">macOS (Apple silicon and Intel) and Linux x86_64. SHA-256 verified. No GitHub account needed.</p>
-      <div class="links"><a href="/orthanc/">Docs</a><a href="/changelog/#orthanc">Changelog</a></div>
-    </div>
-    <div class="card subject">
-      <div class="row-top"><span class="label accent">Layer 2 · The harness</span><span class="chip">Shipped · 0.4.0</span></div>
-      <h3>pi-palantir</h3>
-      <p>A harness for the Pi coding agent, built for Palantir: scope and context every turn, an approval ladder, a branch gate, a Jev risk judge, a loop guard, and subagents.</p>
-      <div class="cmd"><pre><code>pi install git:github.com/zaycruz/pi-palantir</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
-      
-      <div class="links"><a href="/pi-palantir/">Docs</a><a href="/changelog/#pi-palantir">Changelog</a></div>
-    </div>
-    <div class="card">
-      <div class="row-top"><span class="label">Layer 3 · The app</span><span class="chip accent">Experimental · v0.0.2</span></div>
-      <h3>Mirdain</h3>
-      <p>A native Mac app for the harness: tabs and split panes, worktrees, a context inspector, and trace views.</p>
-      <p><a href="https://orthanc.raava.dev/Orthanc-v0.0.2-macos-arm64.zip">Download v0.0.2 for Mac</a></p>
-      <p class="note">Apple silicon, macOS 26 or later. Signed and notarized.</p>
-      <div class="links"><a href="/mirdain/">Docs</a><a href="/changelog/#mirdain">Changelog</a></div>
-    </div>
+<section class="quick" aria-label="Install command">
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" aria-controls="cmd-stable" id="tab-stable">Stable</button>
+    <button role="tab" aria-selected="false" aria-controls="cmd-nightly" id="tab-nightly">Nightly</button>
+  </div>
+  <div id="cmd-stable" role="tabpanel" aria-labelledby="tab-stable"><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+  <div id="cmd-nightly" role="tabpanel" aria-labelledby="tab-nightly" hidden><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
+  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR=&quot;$HOME/.local/orthanc-nightly/bin&quot; sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+  <p class="note">SHA-256 verified. Installs to <code>~/.local/bin</code>. No GitHub account required.</p>
+</section>
+
+<section aria-label="Properties">
+  <div class="points">
+    <div><h3>One envelope</h3><p>Add <code>--agent</code> and any command, including a parse error, returns one <code>foundry-agent-v1</code> object: data, errors, warnings, pagination, always in the same place.</p></div>
+    <div><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
+    <div><h3>Typed errors</h3><p>Every error has a type and a nonzero exit code. API errors carry Foundry's error name and say whether a retry can help.</p></div>
+    <div><h3>Plan first</h3><p>Every command that changes Foundry prints the exact request as a plan and changes nothing until you add <code>--apply</code>.</p></div>
   </div>
 </section>
 
-<section id="latest">
-  <div class="head"><h2><span class="idx">02</span>Latest</h2><p>The newest release of each layer. The full history is on the <a href="/changelog/">changelog</a>.</p></div>
-  <div class="tool-head"><h3>Orthanc</h3><span class="label">Layer 1</span></div>
-  <div class="log"><article><header><span class="ver">Unreleased</span><span class="chip signal">Unreleased</span></header><ul><li>Agent output keeps ontology API names (for example property API names) exactly as the platform returns them instead of rewriting them.</li><li>New repository tag commands: create and list tags, and read a repository&#x27;s fallback branches.</li><li>Updated the TLS library to address a published security advisory.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.1">v0.2.1</a><time datetime="2026-09-20">2026-09-20</time></header><ul><li>New <code>configure profile create</code> command: create a named profile with an interactive host prompt and a hidden token prompt, or pass them non-interactively. The token is stored in the macOS Keychain.</li></ul></article></div>
-  <div class="tool-head"><h3>pi-palantir</h3><span class="label">Layer 2</span></div>
-  <div class="log"><article><header><span class="ver">0.4.0</span><time datetime="2026-09-21">2026-09-21</time></header><ul><li>New approval ladder replaces work roles. Pick a mode with <code>/approval</code>: ask-always, allow-edits, auto (the default), or yolo. The <code>/role</code> command is removed.</li><li>Guarded actions open an approval prompt instead of being blocked with no way forward. Destructive actions always ask, in every mode.</li><li>If the AI risk check is unavailable, the harness now asks for approval instead of letting the action through.</li><li>The Foundry MCP server is disconnected. All Foundry writes go through the Orthanc CLI.</li><li>MCP servers can declare themselves read-only in mcp.json, and tool-discovery calls are treated as reads.</li><li>Command risk levels now come from Orthanc&#x27;s own manifest, so read-only commands are no longer blocked as if they were writes.</li></ul></article></div>
-  <div class="tool-head"><h3>Mirdain</h3><span class="label">Layer 3</span></div>
-  <div class="log"><article><header><span class="ver">v0.0.2</span><time datetime="2026-09-12">2026-09-12</time></header><ul><li>Compact, expandable subagent activity shows assignments, current work, and reported progress while you keep chatting.</li><li>Saved workflows with AI-assisted drafting, editable steps, slash-command launch, and local scheduled automations. Both are opt-in.</li><li>Harness slash commands stay available next to workflows. Workflows use their own prefix when names collide.</li><li>Settings, tabs, workflow drafts, and sessions are saved more reliably, including when you quit.</li><li>Nightly builds keep their own app data and credentials, separate from the stable app.</li><li>Signed with Developer ID and notarized by Apple. Requires Apple silicon and macOS 26 or later.</li></ul></article></div>
+<section id="demo">
+  <div class="head"><h2><span class="idx">01</span>Demo</h2><p>Recorded live against a Foundry stack with Orthanc 0.3.0: a plan, an apply, a typed error, an ontology read, and cleanup.</p></div>
+  <link rel="stylesheet" href="/assets/asciinema-player.css">
+  <div class="player" id="demo-player" aria-label="Terminal recording of an Orthanc session"></div>
+  <details class="manual transcript">
+    <summary>Transcript</summary>
+    <div class="cmd"><pre><code># Orthanc 0.3.0 against a real Foundry stack
+$ orthanc --version
+orthanc 0.3.0
+# Every write is plan-first: without --apply nothing changes
+$ orthanc --agent folder create demo -p $PROJECT | jq &#x27;{mode: .data.mode, request: .data.request, warnings: [.warnings[].code]}&#x27;
+{
+  &quot;mode&quot;: &quot;plan&quot;,
+  &quot;request&quot;: {
+    &quot;body&quot;: {
+      &quot;displayName&quot;: &quot;demo&quot;,
+      &quot;parentFolderRid&quot;: &quot;ri.compass.main.folder.f23e9fb1-b130-401d-9612-c6b8a1edb159&quot;
+    },
+    &quot;path&quot;: &quot;/v2/filesystem/folders&quot;,
+    &quot;verb&quot;: &quot;POST&quot;
+  },
+  &quot;warnings&quot;: [
+    &quot;plan-only&quot;
+  ]
+}
+# --apply sends exactly that request
+$ FOLDER=$(orthanc --agent folder create demo -p $PROJECT --apply | jq -r .data.rid); echo $FOLDER
+ri.compass.main.folder.9f730203-92c8-45d0-b80a-219d791fb183
+$ orthanc folder get $FOLDER | jq &#x27;{display_name, path, rid}&#x27;
+{
+  &quot;display_name&quot;: &quot;demo&quot;,
+  &quot;path&quot;: &quot;/Sandbox-c0c396/orthanc-e2e/demo&quot;,
+  &quot;rid&quot;: &quot;ri.compass.main.folder.9f730203-92c8-45d0-b80a-219d791fb183&quot;
+}
+# Errors are typed, with a nonzero exit code
+$ orthanc --agent folder get ri.compass.main.folder.00000000-0000-0000-0000-000000000000 | jq -c &#x27;.errors[] | {type, message}&#x27;; echo &quot;exit ${PIPESTATUS[0]}&quot;
+{&quot;type&quot;:&quot;api-error&quot;,&quot;message&quot;:&quot;API error: Foundry returned HTTP 404: FolderNotFound; NOT_FOUND; The given Folder could not be found.&quot;}
+exit 1
+# Read an action type as an editable update document
+$ orthanc --agent ontology definition $ONTOLOGY --action-type edit-bed-status --as-update | jq &#x27;.data | {kind, ontology_version, request: (.request | keys)}&#x27;
+{
+  &quot;kind&quot;: &quot;action-type&quot;,
+  &quot;ontology_version&quot;: &quot;00000023-8edb-c3d1-23be-d867b3ea60b9&quot;,
+  &quot;request&quot;: [
+    &quot;actionTypesToUpdate&quot;,
+    &quot;expectedOntologyVersion&quot;
+  ]
+}
+# Clean up: deletes are plan-first too
+$ orthanc --agent resource delete $FOLDER | jq -c .data.request
+{&quot;body&quot;:null,&quot;path&quot;:&quot;/v2/filesystem/resources/ri.compass.main.folder.9f730203-92c8-45d0-b80a-219d791fb183&quot;,&quot;verb&quot;:&quot;DELETE&quot;}
+$ orthanc --agent resource delete $FOLDER --apply | jq -c .data
+{&quot;resource_rid&quot;:&quot;ri.compass.main.folder.9f730203-92c8-45d0-b80a-219d791fb183&quot;,&quot;status&quot;:&quot;ok&quot;}</code></pre></div>
+  </details>
+  <p class="note">Real output, recorded 2026-09-24 in a sandbox project that is deleted afterwards. <code>orthanc capabilities</code> lists every command with its mutation risk. <code>orthanc agent-manifest</code> hands the full surface to an agent.</p>
+  <script src="/assets/asciinema-player.min.js"></script>
+  <script>
+    (function () {
+      var el = document.getElementById('demo-player');
+      var player = AsciinemaPlayer.create('/assets/demo.cast', el, {
+        cols: 118, rows: 22, fit: 'width', idleTimeLimit: 2, theme: 'orthanc',
+        terminalFontFamily: '"IBM Plex Mono", ui-monospace, Menlo, monospace', poster: 'npt:0:30'
+      });
+      // Start the recording when it scrolls into view, once.
+      if ('IntersectionObserver' in window) {
+        var seen = false;
+        new IntersectionObserver(function (entries) {
+          if (!seen && entries[0].isIntersecting) { seen = true; player.play(); }
+        }, { threshold: 0.4 }).observe(el);
+      }
+    })();
+  </script>
+</section>
+
+<section id="install">
+  <div class="head"><h2><span class="idx">02</span>Install</h2><p>Two channels, one installer.</p></div>
+  <div class="rows">
+    <div class="row"><div class="row-head"><h3>Stable</h3><p>Latest tagged release.</p></div>
+      <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh
+export PATH=&quot;$HOME/.local/bin:$PATH&quot;
+orthanc --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+    <div class="row"><div class="row-head"><h3>Nightly</h3><p>Rebuilt after every merge to <code>main</code>. Published as a prerelease. Installs beside stable.</p></div>
+      <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
+  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR=&quot;$HOME/.local/orthanc-nightly/bin&quot; sh
+&quot;$HOME/.local/orthanc-nightly/bin/orthanc&quot; --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+    <div class="row"><div class="row-head"><h3>Pinned</h3><p>Any stable tag via <code>ORTHANC_VERSION</code>.</p></div>
+      <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | \
+  ORTHANC_VERSION=v0.3.0 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+    <div class="row"><div class="row-head"><h3>First run</h3><p>On macOS the installer starts onboarding in an interactive terminal: it creates a profile and stores the token once in the Keychain. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer. On Linux export <code>FOUNDRY_HOST</code> and <code>FOUNDRY_TOKEN</code>.</p></div>
+      <div class="cmd"><pre><code>orthanc onboarding
+orthanc configure set-active PROFILE</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+  </div>
+  <details class="manual">
+    <summary>Manual download and verification</summary>
+    <table>
+      <thead><tr><th>Target</th><th>Archive</th><th>Checksum</th></tr></thead>
+      <tbody>
+        <tr><td>macOS, Apple Silicon</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz">orthanc-aarch64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
+        <tr><td>macOS, Intel</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz">orthanc-x86_64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
+        <tr><td>Linux x86_64, glibc ≥ 2.35</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz">orthanc-x86_64-unknown-linux-gnu.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz.sha256">.sha256</a></td></tr>
+      </tbody>
+    </table>
+    <div class="cmd"><pre><code>shasum -a 256 -c orthanc-aarch64-apple-darwin.tar.gz.sha256
+tar -xzf orthanc-aarch64-apple-darwin.tar.gz
+install -m 755 orthanc ~/.local/bin/orthanc</code></pre><button class="copy" type="button" data-copy>Copy</button></div>
+  </details>
+</section>
+
+<section id="changelog">
+  <div class="head"><h2><span class="idx">03</span>Changelog</h2><p>Assets and checksums for each release are on <a href="https://github.com/zaycruz/orthanc/releases" rel="noopener">GitHub</a>.</p></div>
+  <div class="log"><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.3.0">v0.3.0</a><time datetime="2026-09-24">2026-09-24</time></header><ul><li>Breaking: every command that changes Foundry is plan-first. Without <code>--apply</code> it prints the exact request (verb, path, body) and changes nothing. The old <code>--dry-run</code>, <code>--force</code>, <code>--confirm</code>, and some <code>--yes</code> flags are replaced by <code>--apply</code>.</li><li>Breaking: <code>configure</code> no longer takes <code>--token</code> or <code>--client-secret</code>. Secrets come from <code>--token-stdin</code>, <code>--client-secret-stdin</code>, or a prompt, so they never appear in argv.</li><li>Breaking: removed the hosted LLM message and embedding commands, <code>third-party-apps</code>, and <code>platform-sdk</code>.</li><li>Ontology: <code>ontology definition --as-update</code> reads an object, action, or link type as an editable update document. Writes fill in the ontology version, target a global branch with <code>--branch</code>, and <code>object-type-add-property</code> takes simple flags.</li><li>Function release: <code>repository checks list</code> and <code>checks wait</code>, <code>build-status</code>, <code>build-logs</code>, <code>functions versions</code>, <code>ontology action-type-set-function-version</code>, <code>repository create-typescript-functions</code>, and <code>container create</code>.</li><li><code>compute info</code> shows plain environment values and masks secret-like ones with a length and fingerprint. <code>compute env get --to-file</code> or <code>--copy</code> delivers a value without printing it.</li><li>A functional and end-to-end test suite covers every command and runs live against a Foundry stack. It found and fixed about 50 bugs, among them ontology writes that changed nothing and schema changes that made CSV datasets unreadable.</li><li>Also in this release: API names in agent output stay exactly as the platform returns them, repository tag commands, and a TLS library update for a published security advisory.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.1">v0.2.1</a><time datetime="2026-09-20">2026-09-20</time></header><ul><li>New <code>configure profile create</code> command: create a named profile with an interactive host prompt and a hidden token prompt, or pass them non-interactively. The token is stored in the macOS Keychain.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.2.0">v0.2.0</a><time datetime="2026-09-17">2026-09-17</time></header><ul><li>Guided <code>orthanc onboarding</code> sets up your first profile, stores the token in the Keychain, and makes it active. The installer runs it for new installs only and skips it on updates.</li><li>Nightly release channel that installs beside the stable version.</li><li>Stricter agent mode: one JSON envelope for every result, including argument errors, consistent exit codes, confirmation prompts that fail safely in agent sessions, and wider secret redaction.</li><li>New commands: run commands in and proxy to repository containers, preview transforms and TypeScript functions, create eval suites and compute modules, and read or update solution designs.</li><li>Built-in <code>orthanc smoke</code> self-check with an optional daily schedule on macOS. Search now also returns ontology object types and link types.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.2">v0.1.2</a><time datetime="2026-09-14">2026-09-14</time></header><ul><li>One-line <code>install.sh</code> installer that does not need a GitHub login.</li><li>The installer rejects downloads that fail checksum verification.</li><li>Releases are published only after binaries for every supported platform are present.</li></ul></article><article><header><a href="https://github.com/zaycruz/orthanc/releases/tag/v0.1.0">v0.1.0</a><time datetime="2026-09-14">2026-09-14</time></header><ul><li>First release of Orthanc, a fast Rust CLI for Palantir Foundry, built to be used by AI agents as well as people.</li><li>Covers all 246 commands of the Python reference CLI, with 298 native command paths in total.</li><li>Works across datasets, ontology, SQL, builds and schedules, repositories, functions, streams, models, and admin.</li><li><code>--agent</code> mode returns one structured JSON envelope per command, and <code>agent-manifest</code> lists every command with its risk level.</li><li>Safe changes by default: dry-run plans before mutations, and destructive operations need an explicit flag.</li><li>Prebuilt binaries for macOS (Apple silicon and Intel) and Linux x86_64. Credentials come from the macOS Keychain, environment variables, or named profiles.</li></ul></article></div>
 </section>
 
   </main>

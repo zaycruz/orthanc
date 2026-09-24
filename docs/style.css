@@ -55,8 +55,6 @@ h1, h2, h3 { margin: 0; color: var(--ink); }
 .hero h1 { font: 700 60px/58px var(--display); letter-spacing: -.035em; margin-top: 16px; }
 .lede { margin: 0; color: var(--ink-muted); font-size: 16px; line-height: 25px; max-width: 62ch; }
 .hero.single .lede { margin-top: 20px; }
-.figure { border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 32px 0; }
-.figure img { width: 100%; max-width: 900px; display: block; margin: 0 auto; }
 
 /* Spec strip */
 .spec { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 32px 0 0; }
@@ -97,6 +95,17 @@ section { padding: 56px 0 16px; }
 .term .p { color: #afc0f5; }
 .term .w { color: #e3c4bb; }
 
+/* Demo player: Plate Kit colors on the asciinema player */
+.player { border: 1px solid var(--ink); background: var(--ink); }
+.asciinema-player-theme-orthanc {
+  --term-color-foreground: #e4e4e1; --term-color-background: #111214;
+  --term-color-0: #111214; --term-color-1: #e3c4bb; --term-color-2: #b9d4b0; --term-color-3: #e8d9a8;
+  --term-color-4: #afc0f5; --term-color-5: #d3b8e8; --term-color-6: #a8d8d8; --term-color-7: #e4e4e1;
+  --term-color-8: #6b7076; --term-color-9: #e3c4bb; --term-color-10: #b9d4b0; --term-color-11: #e8d9a8;
+  --term-color-12: #afc0f5; --term-color-13: #d3b8e8; --term-color-14: #a8d8d8; --term-color-15: #ffffff;
+}
+.transcript { margin-top: 12px; }
+
 /* Install rows */
 .rows { border-top: 1px solid var(--rule); }
 .row { display: grid; grid-template-columns: minmax(220px, 1fr) 2fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--rule); }
@@ -112,18 +121,6 @@ section { padding: 56px 0 16px; }
 .manual td a { font: 12px var(--mono); }
 .manual .cmd { border: 0; }
 
-/* Stack cards */
-.installs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-.card { min-width: 0; border: 1px solid var(--ink); padding: 22px 22px 24px; display: flex; flex-direction: column; gap: 12px; }
-.card.subject { border-top: 3px solid var(--accent); }
-.card .row-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.card h3 { font: 700 26px/28px var(--display); letter-spacing: .005em; text-transform: uppercase; }
-.card.subject h3 { color: var(--accent); }
-.card p { margin: 0; font-size: 14px; line-height: 21px; }
-.step { color: var(--ink-muted); margin-top: 6px; }
-.card .links { margin-top: auto; padding-top: 6px; display: flex; gap: 18px; }
-.card .links a { font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
-
 /* Changelog */
 .log { border-top: 1px solid var(--rule); }
 .log article { display: grid; grid-template-columns: minmax(200px, 1fr) 3fr; gap: 28px; padding: 24px 0; border-bottom: 1px solid var(--rule); }
@@ -134,10 +131,6 @@ section { padding: 56px 0 16px; }
 .log ul { margin: 0; padding-left: 18px; }
 .log li { font-size: 14px; line-height: 22px; margin: 2px 0; }
 .log li::marker { color: var(--rule-strong); }
-.tool-head { display: flex; align-items: baseline; gap: 16px; margin: 40px 0 12px; }
-.tool-head:first-of-type { margin-top: 0; }
-.tool-head h3 { font: 700 22px/24px var(--display); text-transform: uppercase; }
-
 footer { margin-top: 64px; border-top: 1px solid var(--rule); }
 footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 22px 40px 40px; }
 footer p { margin: 0; font-size: 12.5px; line-height: 19px; color: var(--ink-muted); max-width: 70ch; }
@@ -148,11 +141,12 @@ footer nav { display: flex; gap: 18px; font-size: 13px; }
   .hero { grid-template-columns: 1fr; padding-top: 48px; }
   .hero h1 { font-size: 42px; line-height: 42px; }
   .spec { grid-template-columns: 1fr 1fr; }
-  .points, .installs { grid-template-columns: 1fr; }
+  .points { grid-template-columns: 1fr; }
   .row, .log article { grid-template-columns: 1fr; gap: 12px; }
   .head { flex-direction: column; align-items: flex-start; }
   .head p { text-align: left; }
-  .masthead .wrap { gap: 16px; }
-  .nav { gap: 14px; }
+  .masthead .wrap { height: auto; flex-wrap: wrap; gap: 10px 16px; padding-top: 16px; padding-bottom: 16px; }
+  .nav { margin-left: 0; gap: 16px; flex-wrap: wrap; }
+  .spec dd { overflow-wrap: anywhere; }
   footer .wrap { flex-direction: column; align-items: flex-start; padding: 22px 20px 40px; }
 }

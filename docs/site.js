@@ -40,7 +40,13 @@
   var nightly = document.getElementById('nightly-date');
   if (nightly) {
     fetch(api + 'tags/nightly').then(function (r) { return r.ok ? r.json() : null; }).then(function (rel) {
-      if (rel && rel.published_at) nightly.textContent = 'built ' + fmt(rel.published_at);
+      if (!rel) return;
+      // The nightly release is reused and its assets are replaced, so the
+      // newest asset upload is the build date, not the release's publish date.
+      var built = (rel.assets || []).reduce(function (latest, asset) {
+        return asset.updated_at && asset.updated_at > latest ? asset.updated_at : latest;
+      }, rel.published_at || '');
+      if (built) nightly.textContent = 'built ' + fmt(built);
     }).catch(function () {});
   }
 })();
