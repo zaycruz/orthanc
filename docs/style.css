@@ -96,8 +96,20 @@ section { padding: 56px 0 16px; }
 .term .w { color: #e3c4bb; }
 
 /* Demo player: Plate Kit colors on the asciinema player */
-.player { border: 1px solid var(--ink); background: var(--ink); }
-.asciinema-player-theme-orthanc {
+/* A macOS-style terminal window on a flat stage */
+.stage { padding: 56px 64px; border-radius: 16px; background: var(--fill); border: 1px solid var(--rule); }
+.window { border-radius: 11px; overflow: hidden; background: #111214;
+  box-shadow: 0 30px 60px -24px rgba(17, 18, 20, .45), 0 0 0 1px rgba(0, 0, 0, .45), inset 0 1px 0 rgba(255,255,255,.06); }
+.titlebar { position: relative; height: 32px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(#2d2e33, #242529); border-bottom: 1px solid #000; }
+.lights { position: absolute; left: 13px; display: flex; gap: 8px; }
+.lights i { width: 12px; height: 12px; border-radius: 50%; background: #ff5f57; box-shadow: inset 0 0 0 .5px rgba(0,0,0,.25); }
+.lights i:nth-child(2) { background: #febc2e; }
+.lights i:nth-child(3) { background: #28c840; }
+.titlebar .title { font: 500 12.5px var(--body); color: #9ca1a8; letter-spacing: .01em; }
+.player { background: #111214; padding: 8px 10px 4px; }
+.player .ap-player { border-radius: 0; }
+.ap-player.asciinema-player-theme-orthanc {
   --term-color-foreground: #e4e4e1; --term-color-background: #111214;
   --term-color-0: #111214; --term-color-1: #e3c4bb; --term-color-2: #b9d4b0; --term-color-3: #e8d9a8;
   --term-color-4: #afc0f5; --term-color-5: #d3b8e8; --term-color-6: #a8d8d8; --term-color-7: #e4e4e1;
@@ -105,6 +117,11 @@ section { padding: 56px 0 16px; }
   --term-color-12: #afc0f5; --term-color-13: #d3b8e8; --term-color-14: #a8d8d8; --term-color-15: #ffffff;
 }
 .transcript { margin-top: 12px; }
+.demo { padding: 8px 0 24px; }
+.demo-tabs { margin-bottom: 0; }
+.demo .stage { display: flex; justify-content: center; border-top-left-radius: 0; padding: 40px 32px; }
+.demo .window { width: fit-content; max-width: 100%; }
+.demo .player { overflow-x: auto; }
 
 /* Install rows */
 .rows { border-top: 1px solid var(--rule); }
@@ -143,6 +160,7 @@ footer nav { display: flex; gap: 18px; font-size: 13px; }
   .spec { grid-template-columns: 1fr 1fr; }
   .points { grid-template-columns: 1fr; }
   .row, .log article { grid-template-columns: 1fr; gap: 12px; }
+  .stage { padding: 20px 14px; border-radius: 12px; }
   .head { flex-direction: column; align-items: flex-start; }
   .head p { text-align: left; }
   .masthead .wrap { height: auto; flex-wrap: wrap; gap: 10px 16px; padding-top: 16px; padding-bottom: 16px; }

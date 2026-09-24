@@ -1,6 +1,7 @@
 (function () {
   // Tabs for the installer.
-  var tabs = document.querySelectorAll('[role="tab"]');
+  // The demo tabs have their own script (demo.js).
+  var tabs = document.querySelectorAll('.tabs:not(.demo-tabs) [role="tab"]');
   tabs.forEach(function (tab) {
     tab.addEventListener('click', function () {
       tabs.forEach(function (t) {
