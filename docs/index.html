@@ -46,18 +46,12 @@
     </div>
     <figure class="window ui-window" aria-live="polite">
       <div class="titlebar light" aria-hidden="true"><span class="lights"><i></i><i></i><i></i></span><span class="address">Palantir Foundry</span></div>
-      <div class="shot"><img id="demo-shot" alt="" src="/assets/demos/shots/basics-0.jpg"></div>
-      <figcaption id="demo-shot-caption">In Foundry</figcaption>
+      <div class="shot"><video id="demo-video" muted playsinline preload="auto" src="/assets/demos/basics.mp4" aria-label="Screen recording of the Foundry web UI during the same run"></video></div>
+      <figcaption>Foundry, recorded live during the run</figcaption>
     </figure>
   </div>
-  <p class="note" id="demo-caption">Plan-first writes: create a folder, read it back, delete it. Real commands and output, recorded live against a Foundry sandbox with Orthanc 0.3.0. The Foundry window shows the same change in the web UI, captured during the run; everything created is deleted afterwards.</p>
-  <details class="manual transcript"><summary>Transcript</summary><div class="cmd" data-transcript="basics"><pre><code># agent: check where I am writing
-$ orthanc resource get $P | jq &quot;{display_name, path}&quot;
-{
-  &quot;display_name&quot;: &quot;orthanc-e2e&quot;,
-  &quot;path&quot;: &quot;/Sandbox-c0c396/orthanc-e2e&quot;
-}
-# agent: make a folder for Q3 docs. Plan first.
+  <p class="note" id="demo-caption">Plan-first writes: create a folder, read it back, delete it. Real commands and output, recorded live against a Foundry sandbox with Orthanc 0.3.0. The Foundry window beside it was recorded during the same run, on the same clock; long waits play at 20× on both sides. Everything created is deleted afterwards.</p>
+  <details class="manual transcript"><summary>Transcript</summary><div class="cmd" data-transcript="basics"><pre><code># agent: make a folder for Q3 docs. Plan first.
 $ orthanc folder create q3-docs -p $P
 {
   &quot;mode&quot;: &quot;plan&quot;,
@@ -83,42 +77,43 @@ $ orthanc resource delete $F
   &quot;mode&quot;: &quot;plan&quot;,
   &quot;request&quot;: {
     &quot;body&quot;: null,
-    &quot;path&quot;: &quot;/v2/filesystem/resources/ri.compass.main.folder.a45a34fa-83f1-42a2-8db0-fac8d8639c77&quot;,
+    &quot;path&quot;: &quot;/v2/filesystem/resources/ri.compass.main.folder.bfcd49bd-7d5c-4113-8300-78a84234f830&quot;,
     &quot;verb&quot;: &quot;DELETE&quot;
   }
 }
 # agent: apply the delete (moves it to trash)
-$ orthanc resource delete $F --apply
-{
-  &quot;resource_rid&quot;: &quot;ri.compass.main.folder.a45a34fa-83f1-42a2-8db0-fac8d8639c77&quot;,
-  &quot;status&quot;: &quot;ok&quot;
-}
+$ orthanc resource delete $F --apply &gt;/dev/null
 $ orthanc resource get $F | jq .trash_status
 &quot;DIRECTLY_TRASHED&quot;
-# agent: done; the project is back as it was</code></pre></div><div class="cmd" data-transcript="pipeline" hidden><pre><code># agent: add distance_km to the flights transform
+# agent: the project is back as it was</code></pre></div><div class="cmd" data-transcript="pipeline" hidden><pre><code># agent: add distance_km to the flights transform
 $ git status -s
  M transforms-python/src/myproject/datasets/flights_enriched.py
 $ cat */src/*/datasets/flights_enriched.py
 import polars as pl
 from transforms.api import Input, Output, transform
+
 ROOT = &quot;/Sandbox-c0c396/orthanc-e2e/flights-demo&quot;
+
+
 @transform.using(
     out=Output(f&quot;{ROOT}/flights_enriched&quot;),
     flights=Input(f&quot;{ROOT}/flights&quot;),
 )
 def compute(flights, out):
-    df = flights.polars(lazy=True)
     km = (pl.col(&quot;distance_mi&quot;) * 1.609).round().cast(pl.Int64)
-    out.write_table(df.with_columns(distance_km=km))
+    out.write_table(flights.polars(lazy=True).select(
+        &quot;flight_id&quot;, &quot;carrier&quot;, &quot;origin&quot;, &quot;dest&quot;, &quot;distance_mi&quot;,
+        km.alias(&quot;distance_km&quot;), &quot;dep_delay_min&quot;,
+    ))
 # agent: commit and push to the Foundry repo
 $ git commit -am &quot;flights: add distance_km&quot;
-[master 0f63d55] flights: add distance_km
- 1 file changed, 3 insertions(+), 1 deletion(-)
+[master 159cf9c] flights: add distance_km
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 $ orthanc repository push $R $M $M --allow-default-branch \
 &gt;   --apply | jq &quot;{status, remote_commit}&quot;
 {
   &quot;status&quot;: &quot;pushed&quot;,
-  &quot;remote_commit&quot;: &quot;0f63d55c016ba7182081635d5bb2c9f3d080a50c&quot;
+  &quot;remote_commit&quot;: &quot;159cf9c30372c41dcc24d86e129c626c0c0ef95a&quot;
 }
 # agent: wait for CI (ci/foundry-publish registers the job)
 $ C=$(git rev-parse HEAD)
@@ -127,40 +122,34 @@ state: passed
 ci/foundry-publish OK refs/heads/master
 # agent: plan the build of the output dataset
 $ orthanc orchestration builds create &quot;$T&quot; \
-&gt;   | jq &quot;{mode, target: .request.body.target}&quot;
-{
-  &quot;mode&quot;: &quot;plan&quot;,
-  &quot;target&quot;: {
-    &quot;targetRids&quot;: [
-      &quot;ri.foundry.main.dataset.b20d5536-77b6-49c7-96e4-7a4316c14599&quot;
-    ],
-    &quot;type&quot;: &quot;manual&quot;
-  }
-}
+&gt;   | jq &quot;.mode, .request.body.target.targetRids[]&quot;
+&quot;plan&quot;
+&quot;ri.foundry.main.dataset.6042f8e6-7713-4d40-96ed-124069f4365a&quot;
 # agent: plan is right; start the build and watch it
 $ B=$(orthanc orchestration builds create &quot;$T&quot; --apply \
 &gt;   | jq -r .build.rid); echo $B
-ri.foundry.main.build.bdb1727e-7c9c-43b6-9662-3e657a3b2901
+ri.foundry.main.build.41b4e619-a3cb-4fee-862d-c59a7fda68a1
 $ while sleep 3; do s=$(orthanc orchestration builds get $B \
 &gt;   | jq -r .build.status); echo &quot;$(date +%T) $s&quot;
 &gt;   [ &quot;$s&quot; = RUNNING ] || break; done
-19:58:04 RUNNING
-19:58:07 SUCCEEDED
+08:17:56 RUNNING
+08:17:59 RUNNING
+08:18:02 SUCCEEDED
 # agent: check the new column in the output
 $ orthanc dataset preview $OUT | jq -r .content \
-&gt;   | tr -d \&quot; | cut -d, -f1,2,5,7 | column -ts,
+&gt;   | tr -d \&quot; | cut -d, -f1,2,5,6 | column -ts,
 flight_id  carrier  distance_mi  distance_km
 UA101      UA       2586         4161
+UA204      UA       888          1429
+DL310      DL       1946         3131
 DL422      DL       2421         3895
 AA515      AA       1121         1804
 AA630      AA       2611         4201
-UA204      UA       888          1429
-DL310      DL       1946         3131
 # agent: done; distance_km is live in flights_enriched</code></pre></div><div class="cmd" data-transcript="ontology" hidden><pre><code># agent: model the pipeline output as a Flight object type
 $ jq &quot;.objectTypes[].create.objectType.apiName&quot; flight.json
 &quot;Flight&quot;
 $ jq &quot;..|.datasetRid? // empty&quot; flight.json
-&quot;ri.foundry.main.dataset.b20d5536-77b6-49c7-96e4-7a4316c14599&quot;
+&quot;ri.foundry.main.dataset.6042f8e6-7713-4d40-96ed-124069f4365a&quot;
 $ FL=dsutbk8l.flight; CA=dsutbk8l.carrier
 # agent: dry run first, then apply
 $ orthanc ontology object-type-create $ONT \
@@ -174,8 +163,8 @@ $ orthanc ontology object-type-create $ONT \
 }
 $ orthanc ontology object-type-create $ONT \
 &gt;   --request-file flight.json --apply \
-&gt;   | jq -c .result.created_object_types
-{&quot;dsutbk8l.flight&quot;:&quot;ri.ontology.main.object-type.8b2cf183-5ef1-489e-833f-5e1f3e408c78&quot;}
+&gt;   | jq -c &quot;{created: .result.created_object_types | keys}&quot;
+{&quot;created&quot;:[&quot;dsutbk8l.flight&quot;]}
 $ orthanc ontology object-type-create $ONT \
 &gt;   --request-file carrier.json --apply | jq .change_status
 &quot;changed&quot;
@@ -183,12 +172,12 @@ $ orthanc ontology object-type-create $ONT \
 $ orthanc ontology definition $ONT --object-type $FL \
 &gt;   | jq -c &quot;.definition.objectType.propertyTypes[]
 &gt;   | [.apiName, .displayMetadata.displayName]&quot;
-[&quot;carrier&quot;,&quot;Carrier&quot;]
 [&quot;depDelayMin&quot;,&quot;Delay (min)&quot;]
-[&quot;origin&quot;,&quot;Origin&quot;]
-[&quot;distanceMi&quot;,&quot;Distance (mi)&quot;]
-[&quot;dest&quot;,&quot;Dest&quot;]
 [&quot;flightId&quot;,&quot;Flight ID&quot;]
+[&quot;dest&quot;,&quot;Dest&quot;]
+[&quot;distanceMi&quot;,&quot;Distance (mi)&quot;]
+[&quot;carrier&quot;,&quot;Carrier&quot;]
+[&quot;origin&quot;,&quot;Origin&quot;]
 # agent: expose the new distance_km column
 $ orthanc ontology object-type-add-property $ONT --apply \
 &gt;   --object-type $FL --api-name distanceKm --type long \
@@ -209,8 +198,8 @@ $ orthanc ontology link-type-create $ONT \
 &quot;success&quot;
 $ orthanc ontology link-type-create $ONT \
 &gt;   --request-file link.json --apply \
-&gt;   | jq -c .result.created_link_types
-{&quot;dsutbk8l.carrier-flights&quot;:&quot;ri.ontology.main.relation.318d1b49-4a49-471b-9790-b0de220bf10b&quot;}
+&gt;   | jq -c &quot;{created: .result.created_link_types | keys}&quot;
+{&quot;created&quot;:[&quot;dsutbk8l.carrier-flights&quot;]}
 $ orthanc ontology definition $ONT --link-type $LK \
 &gt;   | jq -c &quot;.definition.linkType.definition.oneToMany
 &gt;   | [.cardinalityHint, (..|.apiName? // empty)]&quot;
@@ -233,25 +222,29 @@ has no object-type &#x27;dsutbk8l.carrier&#x27;.
 $ orthanc ontology definition $ONT --link-type $LK \
 &gt;   2&gt;&amp;1 | grep -o &quot;has no.*&quot;
 has no link-type &#x27;dsutbk8l.carrier-flights&#x27;.
-# agent: done; the Sandbox Ontology is empty again</code></pre></div><div class="cmd" data-transcript="functions" hidden><pre><code># agent: setBedStatus v3 trims the status. The source:
+# agent: done; the Sandbox Ontology is empty again</code></pre></div><div class="cmd" data-transcript="functions" hidden><pre><code># agent: setBedStatus v2 also fixes the case. The source:
 $ orthanc container exec $D &quot;cat $F&quot; --apply | jq -r .stdout
 import { Client, Osdk } from &quot;@osdk/client&quot;;
 import { createEditBatch, Edits } from &quot;@osdk/functions&quot;;
 import { BedStatus } from &quot;@ontology/sdk&quot;;
+
 type Edit = Edits.Object&lt;BedStatus&gt;;
+
 export default function setBedStatus(
     client: Client,
     bed: Osdk.Instance&lt;BedStatus&gt;,
     status: string,
 ): Edit[] {
     const batch = createEditBatch&lt;Edit&gt;(client);
-    const next = status.trim();
+    const t = status.trim().toLowerCase();
+    const next = t.charAt(0).toUpperCase() + t.slice(1);
     if (bed.status !== next) {
         batch.update(bed, { status: next });
     }
     return batch.getEdits();
 }
-# agent: preview W10-B16 (Vacant), status &quot;  Cleaning &quot;
+
+# agent: preview W10-B16 (Vacant), status &quot;  cLEANING &quot;
 $ orthanc functions preview $D --file-path $F \
 &gt;   --method-name setBedStatus --parameters &quot;$P&quot; | jq -c \
 &gt;   &quot;.outcome, (..|.modify_object?|values|.locator.primary_key,
@@ -261,42 +254,44 @@ $ orthanc functions preview $D --file-path $F \
 {&quot;status&quot;:&quot;Cleaning&quot;}
 # agent: commit and push it to master
 $ orthanc container exec $D --apply &quot;git add $F &amp;&amp;
-&gt;   git commit -qm \&quot;setBedStatus: trim the status\&quot; &amp;&amp;
+&gt;   git commit -qm \&quot;setBedStatus: fix the case\&quot; &amp;&amp;
 &gt;   git push -q origin HEAD:master &amp;&amp; git log --oneline -1&quot; \
 &gt;   | jq -r .stdout
-35aa0e0 setBedStatus: trim the status
+c484a67 setBedStatus: fix the case
+
 $ C=$(orthanc container exec $D &quot;git rev-parse HEAD&quot; \
 &gt;   --apply | jq -r .stdout); echo $C
-35aa0e090f2a671010d900e06b3d1429794abf18
-# agent: 0.0.3 is the last release. Tag 0.0.4, plan first.
-$ orthanc repository tag create $R refs/tags/0.0.4 \
+c484a67e619252e20bada0a5ca374f99466b2793
+# agent: 0.0.2 is the last release. Tag 0.0.3, plan first.
+$ orthanc repository tag create $R refs/tags/0.0.3 \
 &gt;   --commit-hash $C | jq -c &quot;{status, tag: .intended_body
 &gt;   | .requests[].variables.tagName}&quot;
-{&quot;status&quot;:&quot;dry-run&quot;,&quot;tag&quot;:&quot;refs/tags/0.0.4&quot;}
-$ orthanc repository tag create $R refs/tags/0.0.4 \
+{&quot;status&quot;:&quot;dry-run&quot;,&quot;tag&quot;:&quot;refs/tags/0.0.3&quot;}
+$ orthanc repository tag create $R refs/tags/0.0.3 \
 &gt;   --commit-hash $C --apply | jq -c &quot;{status, tag: .tag.name}&quot;
-{&quot;status&quot;:&quot;created&quot;,&quot;tag&quot;:&quot;refs/tags/0.0.4&quot;}
+{&quot;status&quot;:&quot;created&quot;,&quot;tag&quot;:&quot;refs/tags/0.0.3&quot;}
 # agent: wait for ci/functions-publish on the tag
-$ orthanc repository checks wait $R refs/tags/0.0.4 \
-&gt;   | tee w.txt | sed -E &quot;s/ 20[0-9-]+T.*//&quot;
+$ orthanc repository checks wait $R refs/tags/0.0.3 \
+&gt;   --timeout 600 | tee w.txt | sed -E &quot;s/ 20[0-9-]+T.*//
+&gt;   s/^ +//; s/(tion\.[0-9a-f]{8})[^ ]*/\1.../&quot;
 state: passed
-ci/functions-publish OK refs/tags/0.0.4
-  published ri.function-registry.main.function.a03f6853-2464-478e-a698-cc61b3264ce8 0.0.4
+ci/functions-publish OK refs/tags/0.0.3
+published ri.function-registry.main.function.ccb26f67... 0.0.3
 # agent: which function version did the build publish?
 $ B=$(grep -o &quot;build=[^ ]*&quot; w.txt | cut -d= -f2)
-$ until orthanc repository build-status $B | grep published
-&gt;   do sleep 5; done
-    published ri.function-registry.main.function.a03f6853-2464-478e-a698-cc61b3264ce8 0.0.4
+$ for i in $(seq 60); do orthanc repository build-status $B \
+&gt;   | sed -E &quot;s/^ +//; s/(tion\.[0-9a-f]{8})[^ ]*/\1.../&quot; \
+&gt;   | grep published &amp;&amp; break; sleep 5; done
+published ri.function-registry.main.function.ccb26f67... 0.0.3
 $ FN=$(orthanc repository build-status $B \
 &gt;   | grep -o &quot;ri.function-registry[^ ]*&quot;)
 # agent: list the function&#x27;s published versions
 $ orthanc functions versions $FN | jq -c &quot;{display_name,
-&gt;   count}, (.versions[] | {version, registered_time})&quot;
-{&quot;display_name&quot;:&quot;setBedStatus&quot;,&quot;count&quot;:3}
-{&quot;version&quot;:&quot;0.0.4&quot;,&quot;registered_time&quot;:&quot;2026-09-25T00:31:37.603186255Z&quot;}
-{&quot;version&quot;:&quot;0.0.3&quot;,&quot;registered_time&quot;:&quot;2026-09-25T00:26:56.042731444Z&quot;}
-{&quot;version&quot;:&quot;0.0.2&quot;,&quot;registered_time&quot;:&quot;2026-09-25T00:21:51.272716843Z&quot;}
-# agent: done; setBedStatus 0.0.4 is published</code></pre></div></details>
+&gt;   count}, (.versions[] | {version, time: .registered_time})&quot;
+{&quot;display_name&quot;:&quot;setBedStatus&quot;,&quot;count&quot;:2}
+{&quot;version&quot;:&quot;0.0.3&quot;,&quot;time&quot;:&quot;2026-09-25T12:23:00.637653891Z&quot;}
+{&quot;version&quot;:&quot;0.0.2&quot;,&quot;time&quot;:&quot;2026-09-25T02:46:25.365453142Z&quot;}
+# agent: done; setBedStatus 0.0.3 is published</code></pre></div></details>
   <script src="/assets/asciinema-player.min.js"></script>
   <script src="/demo.js" defer></script>
 </section>
