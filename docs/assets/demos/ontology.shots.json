@@ -1,0 +1,27 @@
+[
+ {
+  "t": 0.0,
+  "img": "ontology-0.jpg",
+  "caption": "In Foundry: the Sandbox Ontology in Ontology Manager, with no object types"
+ },
+ {
+  "t": 39.45,
+  "img": "ontology-1.jpg",
+  "caption": "In Foundry: the new Flight object type, backed by the flights_enriched dataset"
+ },
+ {
+  "t": 57.27,
+  "img": "ontology-2.jpg",
+  "caption": "In Foundry: Flight now has 7 properties, including Distance (km)"
+ },
+ {
+  "t": 78.82,
+  "img": "ontology-3.jpg",
+  "caption": "In Foundry: the Flights / Operated By link type between Carrier and Flight"
+ },
+ {
+  "t": 106.5,
+  "img": "ontology-4.jpg",
+  "caption": "In Foundry: after cleanup the Sandbox Ontology has no object or link types again"
+ }
+]

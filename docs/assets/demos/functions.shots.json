@@ -1,0 +1,22 @@
+[
+ {
+  "t": 0.0,
+  "img": "functions-0.jpg",
+  "caption": "In Foundry: the bed-functions repository before the release; 0.0.3 is the latest tag"
+ },
+ {
+  "t": 34.65,
+  "img": "functions-1.jpg",
+  "caption": "In Foundry: the pushed commit in bed-functions trims the status before the update"
+ },
+ {
+  "t": 68.34,
+  "img": "functions-2.jpg",
+  "caption": "In Foundry: tag 0.0.4 released; functions-publish succeeded and published setBedStatus"
+ },
+ {
+  "t": 80.21,
+  "img": "functions-3.jpg",
+  "caption": "In Foundry: setBedStatus version 0.0.4 in Ontology Manager, with the new code"
+ }
+]

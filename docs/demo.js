@@ -6,7 +6,49 @@
   if (!tabs.length || !el || !window.AsciinemaPlayer) return;
   var title = document.getElementById('demo-title');
   var caption = document.getElementById('demo-caption');
-  var suffix = ' Real commands and output, recorded live against a Foundry sandbox with Orthanc 0.3.0; everything created is deleted afterwards.';
+  var suffix = ' Real commands and output, recorded live against a Foundry sandbox with Orthanc 0.3.0. The Foundry window shows the same change in the web UI, captured during the run; everything created is deleted afterwards.';
+  var shotImg = document.getElementById('demo-shot');
+  var shotCaption = document.getElementById('demo-shot-caption');
+  var shots = [];
+  var shownShot = null;
+  var syncTimer = null;
+
+  // Show the last screenshot whose time is at or before the player time.
+  // Times are in player time (idle gaps already capped at 2 s).
+  function showShotAt(t) {
+    var pick = null;
+    shots.forEach(function (s) { if (s.t <= t + 0.05) pick = s; });
+    if (!pick || pick === shownShot) return;
+    shownShot = pick;
+    shotImg.classList.add('fading');
+    var next = new Image();
+    next.onload = function () {
+      shotImg.src = next.src;
+      shotImg.alt = pick.caption;
+      shotCaption.textContent = pick.caption;
+      shotImg.classList.remove('fading');
+    };
+    next.src = '/assets/demos/shots/' + pick.img;
+  }
+
+  function startSync() {
+    if (syncTimer) clearInterval(syncTimer);
+    syncTimer = setInterval(function () {
+      if (!player || !player.getCurrentTime) return;
+      var t = player.getCurrentTime();
+      if (t && typeof t.then === 'function') t.then(showShotAt); else showShotAt(t || 0);
+    }, 250);
+  }
+
+  function loadShots(key) {
+    shots = [];
+    shownShot = null;
+    fetch('/assets/demos/' + key + '.shots.json').then(function (r) { return r.ok ? r.json() : []; }).then(function (list) {
+      shots = list || [];
+      shots.forEach(function (s) { new Image().src = '/assets/demos/shots/' + s.img; });
+      showShotAt(0);
+    }).catch(function () {});
+  }
   var player = null;
   var started = false;
   var autoAdvance = true;
@@ -46,7 +88,9 @@
     document.querySelectorAll('[data-transcript]').forEach(function (block) {
       block.hidden = block.getAttribute('data-transcript') !== tab.dataset.demo;
     });
+    loadShots(tab.dataset.demo);
     load(tab, play);
+    startSync();
   }
 
   tabs.forEach(function (tab, i) {

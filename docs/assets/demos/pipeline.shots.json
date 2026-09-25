@@ -1,0 +1,22 @@
+[
+ {
+  "t": 0.0,
+  "img": "pipeline-0.jpg",
+  "caption": "In Foundry: flights_enriched before the change (6 columns)"
+ },
+ {
+  "t": 20.9,
+  "img": "pipeline-1.jpg",
+  "caption": "In Foundry: the pushed commit in the flights-transforms repository adds distance_km"
+ },
+ {
+  "t": 57.09,
+  "img": "pipeline-2.jpg",
+  "caption": "In Foundry: the build of flights_enriched succeeded"
+ },
+ {
+  "t": 66.67,
+  "img": "pipeline-3.jpg",
+  "caption": "In Foundry: flights_enriched now has the distance_km column"
+ }
+]
