@@ -24,16 +24,18 @@
   <div>
     <div class="label accent">Orthanc v0.3.0 · <a href="/changelog/">What's new</a></div>
     <h1>A Foundry CLI<br>built for agents.</h1>
-    <p class="lede">One binary. Every command can return a single structured JSON envelope, every write is plan-first, and every command is tested live against Foundry. Credentials never appear in arguments, logs, or output. Installs in one line.</p>
+    <p class="lede">One Rust binary for Palantir Foundry, with structured JSON output and plan-first writes.</p>
+    <div class="quick hero-install" aria-label="Install command">
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" aria-controls="cmd-stable" id="tab-stable">Stable</button>
+        <button role="tab" aria-selected="false" aria-controls="cmd-nightly" id="tab-nightly">Nightly</button>
+      </div>
+      <div id="cmd-stable" role="tabpanel" aria-labelledby="tab-stable"><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+      <div id="cmd-nightly" role="tabpanel" aria-labelledby="tab-nightly" hidden><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
+  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR=&quot;$HOME/.local/orthanc-nightly/bin&quot; sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+      <p class="note">SHA-256 verified. Installs to <code>~/.local/bin</code>. No GitHub account required. <a href="#install">More install options</a></p>
+    </div>
   </div>
-  <dl class="spec">
-    <div><dt>Stable</dt><dd id="stable-version" data-stable-version>v0.3.0</dd></div>
-    <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
-    <div><dt>Platforms</dt><dd>macOS arm64 · macOS x86_64 · Linux x86_64</dd></div>
-    <div><dt>Written in</dt><dd>Rust</dd></div>
-    <div><dt>Runtime deps</dt><dd>None</dd></div>
-    <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
-  </dl>
 </div>
 
 <section id="demo" class="demo">
@@ -297,28 +299,25 @@ $ orthanc functions versions $FN | jq -c &quot;{display_name,
 </section>
 
 
-<section class="quick" aria-label="Install command">
-  <div class="tabs" role="tablist">
-    <button role="tab" aria-selected="true" aria-controls="cmd-stable" id="tab-stable">Stable</button>
-    <button role="tab" aria-selected="false" aria-controls="cmd-nightly" id="tab-nightly">Nightly</button>
-  </div>
-  <div id="cmd-stable" role="tabpanel" aria-labelledby="tab-stable"><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
-  <div id="cmd-nightly" role="tabpanel" aria-labelledby="tab-nightly" hidden><div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/download/nightly/install.sh | \
-  ORTHANC_CHANNEL=nightly ORTHANC_INSTALL_DIR=&quot;$HOME/.local/orthanc-nightly/bin&quot; sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
-  <p class="note">SHA-256 verified. Installs to <code>~/.local/bin</code>. No GitHub account required.</p>
-</section>
-
-<section aria-label="Properties">
+<section class="properties" aria-label="What the demo shows">
   <div class="points">
+    <div><h3>Plan first</h3><p>Every command that changes Foundry prints the exact request as a plan and changes nothing until you add <code>--apply</code>.</p><a class="see" href="#demo" data-show-demo="basics">See it in Basics</a></div>
     <div><h3>One envelope</h3><p>Add <code>--agent</code> and any command, including a parse error, returns one <code>foundry-agent-v1</code> object: data, errors, warnings, pagination, always in the same place.</p></div>
-    <div><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
     <div><h3>Typed errors</h3><p>Every error has a type and a nonzero exit code. API errors carry Foundry's error name and say whether a retry can help.</p></div>
-    <div><h3>Plan first</h3><p>Every command that changes Foundry prints the exact request as a plan and changes nothing until you add <code>--apply</code>.</p></div>
+    <div><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
   </div>
 </section>
 
 <section id="install">
   <div class="head"><h2>Install</h2><p>Two channels, one installer.</p></div>
+  <dl class="spec install-spec">
+    <div><dt>Stable</dt><dd id="stable-version" data-stable-version>v0.3.0</dd></div>
+    <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
+    <div><dt>Platforms</dt><dd>macOS arm64 · macOS x86_64 · Linux x86_64</dd></div>
+    <div><dt>Written in</dt><dd>Rust</dd></div>
+    <div><dt>Runtime deps</dt><dd>None</dd></div>
+    <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
+  </dl>
   <div class="rows">
     <div class="row"><div class="row-head"><h3>Stable</h3><p>Latest tagged release.</p></div>
       <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | sh

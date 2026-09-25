@@ -13,6 +13,14 @@
     });
   });
 
+  // "See it in …" links open that workflow's demo tab (handled by demo.js).
+  document.querySelectorAll('[data-show-demo]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var tab = document.getElementById('demo-tab-' + link.getAttribute('data-show-demo'));
+      if (tab) tab.click();
+    });
+  });
+
   // Copy buttons. Each sits beside the <pre> it copies.
   document.querySelectorAll('[data-copy]').forEach(function (button) {
     button.addEventListener('click', function () {
