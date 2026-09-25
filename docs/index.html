@@ -42,7 +42,7 @@
       <div><dt>Writes</dt><dd>113, all plan-first</dd></div>
       <div><dt>Live tests</dt><dd>768 cases</dd></div>
       <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
-      <div><dt>Platforms</dt><dd>macOS arm64 · x86_64, Linux x86_64</dd></div>
+      <div><dt>Platforms</dt><dd>macOS, Apple Silicon and Intel</dd></div>
       <div><dt>Written in</dt><dd>Rust, no runtime deps</dd></div>
       <div><dt>License</dt><dd>Proprietary, binary use granted</dd></div>
     </dl>
@@ -336,7 +336,7 @@ orthanc --version</code></pre><button class="copy" type="button" data-copy>Copy<
     <div class="row"><div class="row-head"><h3>Pinned</h3><p>Any stable tag via <code>ORTHANC_VERSION</code>.</p></div>
       <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | \
   ORTHANC_VERSION=v0.3.0 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
-    <div class="row"><div class="row-head"><h3>First run</h3><p>On macOS the installer starts onboarding in an interactive terminal: it creates a profile and stores the token once in the Keychain. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer. On Linux export <code>FOUNDRY_HOST</code> and <code>FOUNDRY_TOKEN</code>.</p></div>
+    <div class="row"><div class="row-head"><h3>First run</h3><p>On macOS the installer starts onboarding in an interactive terminal: it creates a profile and stores the token once in the Keychain. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer.</p></div>
       <div class="cmd"><pre><code>orthanc onboarding
 orthanc configure set-active PROFILE</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
   </div>
@@ -347,7 +347,6 @@ orthanc configure set-active PROFILE</code></pre><button class="copy" type="butt
       <tbody>
         <tr><td>macOS, Apple Silicon</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz">orthanc-aarch64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-aarch64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
         <tr><td>macOS, Intel</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz">orthanc-x86_64-apple-darwin.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-apple-darwin.tar.gz.sha256">.sha256</a></td></tr>
-        <tr><td>Linux x86_64, glibc ≥ 2.35</td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz">orthanc-x86_64-unknown-linux-gnu.tar.gz</a></td><td><a href="https://github.com/zaycruz/orthanc/releases/latest/download/orthanc-x86_64-unknown-linux-gnu.tar.gz.sha256">.sha256</a></td></tr>
       </tbody>
     </table>
     <div class="cmd"><pre><code>shasum -a 256 -c orthanc-aarch64-apple-darwin.tar.gz.sha256
