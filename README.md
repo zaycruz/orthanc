@@ -13,13 +13,13 @@ export PATH="$HOME/.local/bin:$PATH"
 orthanc --version
 ```
 
-On macOS, the installer starts the first-run onboarding guide when it has an interactive terminal. If it was skipped, run:
+The installer starts the first-run onboarding guide when it has an interactive terminal. If it was skipped, run:
 
 ```bash
 orthanc onboarding
 ```
 
-The guide asks for a profile name, creates and activates that profile, and stores the bearer token once in the macOS Keychain. Switch later with `orthanc configure set-active PROFILE`. On Linux, set `FOUNDRY_HOST` and `FOUNDRY_TOKEN` before using the CLI. The installer supports macOS on Apple Silicon and Intel, plus Linux x86_64. It verifies the downloaded archive with its published SHA-256 checksum.
+The guide asks for a profile name, creates and activates that profile, and stores the bearer token once: in the Keychain on macOS, and in the Secret Service on Linux, or in a 0600 file (`~/.config/foundry/orthanc-credentials.json`) on a headless host. Switch later with `orthanc configure set-active PROFILE`. The installer supports macOS on Apple Silicon and Intel, plus Linux x86_64. It verifies the downloaded archive with its published SHA-256 checksum.
 
 ## Nightly channel
 
