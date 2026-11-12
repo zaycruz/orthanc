@@ -36,11 +36,11 @@
     </div>
   </div>
   <aside class="specs" aria-label="Orthanc at a glance">
-    <div class="specs-head"><span>Orthanc</span><a href="/changelog/" data-stable-version>v0.3.3</a></div>
+    <div class="specs-head"><span>Orthanc</span><a href="/changelog/" data-stable-version>v0.7.3</a></div>
     <dl>
-      <div><dt>Commands</dt><dd>321</dd></div>
-      <div><dt>Writes</dt><dd>113, all plan-first</dd></div>
-      <div><dt>Live tests</dt><dd>768 cases</dd></div>
+      <div><dt>Commands</dt><dd>476</dd></div>
+      <div><dt>Writes</dt><dd>206, all plan-first</dd></div>
+      <div><dt>Live tests</dt><dd>1,898 cases</dd></div>
       <div><dt>Nightly</dt><dd id="nightly-date">tracks main</dd></div>
       <div><dt>Platforms</dt><dd>macOS arm64 · x86_64, Linux x86_64</dd></div>
       <div><dt>Written in</dt><dd>Rust, no runtime deps</dd></div>
@@ -317,7 +317,7 @@ $ orthanc functions versions $FN | jq -c &quot;{display_name,
     <div><h3>Plan first</h3><p>Every command that changes Foundry prints the exact request as a plan and changes nothing until you add <code>--apply</code>.</p><a class="see" href="#demo" data-show-demo="basics">See it in Basics</a></div>
     <div><h3>One envelope</h3><p>Add <code>--agent</code> and any command, including a parse error, returns one <code>foundry-agent-v1</code> object: data, errors, warnings, pagination, always in the same place.</p></div>
     <div><h3>Typed errors</h3><p>Every error has a type and a nonzero exit code. API errors carry Foundry's error name and say whether a retry can help.</p></div>
-    <div><h3>Credentials out of band</h3><p>Tokens are stored once per profile in the macOS Keychain and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
+    <div><h3>Credentials out of band</h3><p>Tokens are stored once per profile, in the macOS Keychain or the Linux Secret Service (a 0600 file on a headless host), and read from stdin or the environment. They never enter argv, logs, or output.</p></div>
   </div>
 </section>
 
@@ -335,7 +335,7 @@ orthanc --version</code></pre><button class="copy" type="button" data-copy>Copy<
 &quot;$HOME/.local/orthanc-nightly/bin/orthanc&quot; --version</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
     <div class="row"><div class="row-head"><h3>Pinned</h3><p>Any stable tag via <code>ORTHANC_VERSION</code>.</p></div>
       <div class="cmd"><pre><code>curl -fsSL https://github.com/zaycruz/orthanc/releases/latest/download/install.sh | \
-  ORTHANC_VERSION=v0.3.3 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
+  ORTHANC_VERSION=v0.7.3 sh</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
     <div class="row"><div class="row-head"><h3>First run</h3><p>In an interactive terminal the installer starts onboarding: it creates a profile and stores the token once, in the Keychain on macOS and in the Secret Service on Linux, or in a 0600 file on a headless Linux host. Set <code>ORTHANC_SKIP_ONBOARDING=1</code> to defer.</p></div>
       <div class="cmd"><pre><code>orthanc onboarding
 orthanc configure set-active PROFILE</code></pre><button class="copy" type="button" data-copy>Copy</button></div></div>
